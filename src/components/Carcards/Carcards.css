@@ -1,0 +1,351 @@
+.exploreOurInventory {
+    margin: 0;
+    position: relative;
+    line-height: 78.96px;
+    font-weight: 500;
+    font-family: inherit;
+    display: inline-block;
+    max-width: 100%;
+}
+
+.cardsconatiner {
+    display: flex;
+    flex-direction: column;
+}
+
+.line {
+    display: flex;
+    flex-direction: column;
+}
+
+.frameChild,
+.rectangleWrapper {
+    background-color: var(--color-gainsboro);
+}
+
+.frameChild {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.rectangleWrapper {
+    align-self: stretch;
+    height: 1px;
+    position: relative;
+}
+
+.exploreOurInventoryParent,
+.frameWrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    max-width: 100%;
+}
+
+.frameWrapper {
+    flex: 1;
+    flex-direction: column;
+    padding: var(--padding-15xl-2) 0 0;
+    box-sizing: border-box;
+    min-width: 666px;
+}
+
+.exploreOurInventoryParent {
+    align-self: stretch;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 20px;
+}
+
+.image5Icon,
+.image5Wrapper {
+    height: 180px;
+    overflow: hidden;
+}
+
+.image5Icon {
+    position: absolute;
+    width: calc(100% - 11.9px);
+    top: 0;
+    right: 5.9px;
+    left: 6px;
+    max-width: 100%;
+    object-fit: cover;
+}
+
+.image5Wrapper {
+    background-color: var(--color-silver-200);
+    flex-shrink: 0;
+}
+
+.image5Wrapper,
+.mgGlosterSharp,
+.rs3200Lakh {
+    align-self: stretch;
+    position: relative;
+}
+
+.mgGlosterSharp {
+    line-height: 140%;
+    font-weight: 500;
+}
+
+.rs3200Lakh {
+    font-size: var(--font-size-3xl);
+    line-height: 31px;
+    white-space: nowrap;
+}
+
+.mgGlosterSharp7StrParent {
+    width: 223px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--gap-8xs);
+}
+
+.ratingStarsIcon {
+    width: 17px;
+    height: 17px;
+    position: relative;
+}
+
+.ratingStarsWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: var(--padding-11xs) 0 0;
+}
+
+.div {
+    position: relative;
+    line-height: 140%;
+    display: inline-block;
+    min-width: 23px;
+}
+
+.frameDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--gap-3xs);
+    font-size: var(--font-size-mini);
+    color: var(--color-dimgray-100);
+}
+
+.km {
+    position: relative;
+    line-height: 140%;
+    display: inline-block;
+    min-width: 67px;
+}
+
+.petrol {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    padding-left: var(--padding-smi);
+}
+
+.dieselTxt {
+    line-break: anywhere;
+    width: 100%;
+}
+
+.diesel,
+.newDelhi {
+    position: relative;
+    line-height: 140%;
+}
+
+.diesel {
+    width: 44px;
+    display: flex;
+    align-items: center;
+}
+
+.newDelhi {
+    display: inline-block;
+    min-width: 110px;
+}
+
+.kmParent {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-size: var(--font-size-3xs);
+}
+
+.frameContainer {
+    align-self: stretch;
+    height: 132px;
+    flex-direction: column;
+    padding: var(--padding-xl) var(--padding-3xs) var(--padding-4xl);
+    box-sizing: border-box;
+    gap: var(--gap-3xs);
+}
+
+.frameContainer,
+.frameGroup,
+.inventoryItemsInner {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.frameGroup {
+    flex: 1;
+    border-radius: var(--br-3xs);
+    background-color: var(--shades-white);
+    border: 1px solid var(--color-whitesmoke-100);
+    overflow: hidden;
+    flex-direction: column;
+    padding: var(--padding-5xs) var(--padding-4xs);
+    gap: var(--gap-3xs);
+}
+
+.inventoryItemsInner {
+    flex-direction: row;
+}
+
+.km2 {
+    position: relative;
+    line-height: 140%;
+    display: inline-block;
+    min-width: 66px;
+}
+
+.inventoryItems {
+    width: 1290px;
+    display: grid;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--gap-11xl);
+    max-width: 100%;
+    grid-template-columns: repeat(4, minmax(225px, 1fr));
+}
+
+.inventoryItemsWrapper {
+    align-self: stretch;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0 var(--padding-xl);
+    box-sizing: border-box;
+    font-size: var(--semi-bold-16-size);
+    color: var(--color-dimgray-200);
+}
+
+.frameParent,
+.inventoryItemsWrapper,
+.rootInner {
+    display: flex;
+    align-items: flex-start;
+    max-width: 100%;
+}
+
+.frameParent {
+    width: 1530.8px;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: var(--gap-25xl-8);
+}
+
+.rootInner {
+    align-self: stretch;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0 var(--padding-2xl) var(--padding-128xl) var(--padding-xl);
+    box-sizing: border-box;
+    text-align: left;
+    font-size: var(--font-size-29xl);
+    color: var(--black);
+    font-family: var(--semi-bold-16);
+}
+
+@media screen and (max-width: 1350px) {
+    .inventoryItems {
+        justify-content: center;
+        grid-template-columns: repeat(2, minmax(225px, 390px));
+    }
+}
+
+@media screen and (max-width: 925px) {
+    .exploreOurInventory {
+        font-size: var(--font-size-19xl);
+        line-height: 62px;
+    }
+
+    .frameWrapper {
+        min-width: 100%;
+    }
+
+    .inventoryItems {
+        grid-template-columns: minmax(225px, 1fr);
+    }
+
+    .frameParent {
+        gap: var(--gap-3xl);
+    }
+
+    .rootInner {
+        padding-bottom: var(--padding-77xl);
+        box-sizing: border-box;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .exploreOurInventory {
+        font-size: var(--font-size-10xl);
+        line-height: 46px;
+    }
+
+    .rs3200Lakh {
+        font-size: var(--font-size-lg);
+        line-height: 25px;
+    }
+
+    .inventoryItemsInner {
+        gap: var(--gap-6xl);
+    }
+}
+
+.enquireNow {
+    position: relative;
+    line-height: 140%;
+    display: inline-block;
+    min-width: 99px;
+}
+
+.enquireBtn2,
+.enquireNowWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    cursor: pointer;
+}
+
+.enquireNowWrapper {
+    flex: 1;
+    border: 1px solid var(--color-dimgray-200);
+    justify-content: center;
+    padding: var(--padding-2xs) var(--padding-xl);
+}
+
+.enquireBtn2 {
+    align-self: stretch;
+    border-radius: var(--br-3xs);
+    justify-content: flex-start;
+    text-align: left;
+    font-size: var(--semi-bold-16-size);
+    color: var(--color-dimgray-200);
+    font-family: var(--semi-bold-16);
+}

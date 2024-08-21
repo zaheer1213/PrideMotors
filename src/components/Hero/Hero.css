@@ -1,0 +1,362 @@
+.imageIcon {
+    height: 32px;
+    width: 32px;
+    position: relative;
+    transform: rotate(-180deg);
+}
+
+.leftBtn,
+.leftBtnWrapper {
+    display: flex;
+    align-items: flex-start;
+}
+
+.leftBtn {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--br-9xl);
+    background-color: var(--shades-white);
+    border: 1px solid var(--wwwcars24com-alto);
+    box-sizing: border-box;
+    flex-direction: row;
+    justify-content: center;
+    padding: var(--padding-xs) var(--padding-2xs);
+    transform: rotate(180deg);
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.leftBtnWrapper {
+    margin-left: -156px;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: var(--padding-3xl) 0 0;
+}
+
+.file581 {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 573.3px;
+    max-height: 100%;
+    width: 709.2px;
+    object-fit: contain;
+    z-index: 1;
+}
+
+.frameChild {
+    position: absolute;
+    top: 216px;
+    left: 0;
+    width: 715.2px;
+    height: 148.7px;
+    z-index: 2;
+}
+
+.file581Parent {
+    position: absolute;
+    top: 42px;
+    left: 375px;
+    width: 1282.5px;
+    height: 472.8px;
+}
+
+.frameItem {
+    width: calc(100% + 190.7px);
+    height: 635.5px;
+    position: absolute;
+    margin: 0 !important;
+    top: 691.18px;
+    right: -190.7px;
+    left: 0;
+    background: linear-gradient(-88.12deg, #d9d9d9, #737373);
+    transform: rotate(-50.5deg);
+    transform-origin: 0 0;
+}
+
+.buyWithConfidence {
+    font-size: 75.9px;
+}
+
+.findYourPerfectContainer1 {
+    width: 100%;
+}
+
+.findYourPerfectContainer {
+    width: 100%;
+    position: relative;
+    line-height: 230%;
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    z-index: 2;
+}
+
+.rectangleParent {
+    position: absolute;
+    top: -95px;
+    left: 97.6px;
+    width: 1683.3px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 190px 452px 808px;
+    box-sizing: border-box;
+    min-height: 1096px;
+    max-width: 100%;
+}
+
+.banner {
+    align-self: stretch;
+    height: 515px;
+    position: relative;
+    background-color: #959595;
+    overflow: hidden;
+    flex-shrink: 0;
+    max-width: 100%;
+}
+
+.frameParent,
+.navigationParent {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    max-width: 100%;
+}
+
+.navigationParent {
+    width: 1920px;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.frameParent {
+    align-self: stretch;
+    flex-direction: row;
+    padding: 0 0 54.3px;
+    box-sizing: border-box;
+    gap: 100px;
+    text-align: center;
+    font-size: 41.5px;
+    color: var(--black);
+    font-family: var(--font-khand);
+}
+
+.bgIcon,
+.t1Icon {
+    position: absolute;
+    margin: 0 !important;
+}
+
+.bgIcon {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.t1Icon {
+    width: 226.2px;
+    height: 116.8px;
+    bottom: 379.6px;
+    left: 847.1px;
+    object-fit: contain;
+    z-index: 1;
+}
+
+.meetOurTeam {
+    margin: 0;
+    position: relative;
+    font-size: inherit;
+    line-height: 75px;
+    font-weight: 500;
+    font-family: inherit;
+    z-index: 1;
+}
+
+.teamHeading {
+    width: 649.9px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    max-width: 100%;
+}
+
+.clarityGivesYou {
+    margin: 0;
+    align-self: stretch;
+    position: relative;
+    font-size: var(--font-size-3xl);
+    line-height: 36.02px;
+    font-weight: 400;
+    font-family: inherit;
+    color: #52525b;
+    z-index: 1;
+}
+
+.team {
+    flex: 1;
+    flex-direction: column;
+    padding: 124.9px 629px 571.9px 630px;
+    position: relative;
+    gap: 23.4px;
+    max-width: 100%;
+}
+
+.root,
+.team,
+.teamWrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-sizing: border-box;
+}
+
+.teamWrapper {
+    align-self: stretch;
+    flex-direction: row;
+    padding: 0 0 115.8px;
+    max-width: 100%;
+    text-align: center;
+    font-size: var(--font-size-29xl);
+    color: var(--base-02);
+    font-family: var(--semi-bold-16);
+}
+
+.root {
+    width: 100%;
+    position: relative;
+    background-color: var(--shades-white);
+    overflow: hidden;
+    flex-direction: column;
+    padding: 0 0 var(--padding-12xs-3);
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+@media screen and (max-width: 1825px) {
+    .frameParent {
+        flex-wrap: wrap;
+    }
+}
+
+@media screen and (max-width: 1350px) {
+    .frameParent {
+        padding-bottom: 35px;
+    }
+
+    .frameParent,
+    .team,
+    .teamWrapper {
+        box-sizing: border-box;
+    }
+
+    .team {
+        padding-left: 315px;
+        padding-right: 314px;
+    }
+
+    .teamWrapper {
+        padding-bottom: 75px;
+    }
+}
+
+@media screen and (max-width: 925px) {
+    .findYourPerfectContainer {
+        font-size: 33px;
+        line-height: 56px;
+    }
+
+    .frameParent {
+        gap: var(--gap-31xl);
+        padding-bottom: var(--padding-4xl);
+        box-sizing: border-box;
+    }
+
+    .meetOurTeam {
+        font-size: var(--font-size-19xl);
+        line-height: 60px;
+    }
+
+    .team,
+    .teamWrapper {
+        box-sizing: border-box;
+    }
+
+    .team {
+        padding: 81px 157px 372px;
+    }
+
+    .teamWrapper {
+        padding-bottom: var(--padding-30xl);
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .findYourPerfectContainer {
+        font-size: 25px;
+        line-height: 42px;
+    }
+
+    .frameParent {
+        gap: var(--gap-6xl);
+    }
+
+    .meetOurTeam {
+        font-size: var(--font-size-10xl);
+        line-height: 45px;
+    }
+
+    .clarityGivesYou {
+        font-size: var(--font-size-lg);
+        line-height: 29px;
+    }
+
+    .team {
+        padding-top: 53px;
+        padding-bottom: 242px;
+        box-sizing: border-box;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .rectangleParent {
+        padding: 0;
+        position: relative;
+        top: 0;
+        left: 0;
+        width: auto;
+        height: auto;
+        padding: 10px;
+        justify-content: center;
+    }
+
+    .buyWithConfidence {
+        font-size: 50px;
+    }
+
+    .file581Parent {
+        position: relative;
+    }
+}
+.imgcol{
+    height: auto;
+    width: 100%;
+    overflow: hidden;
+}
+@media screen and (max-width: 768px) {
+    .imgcol img{
+        height: auto;
+        width: 100%;
+        overflow: hidden;
+    }
+}

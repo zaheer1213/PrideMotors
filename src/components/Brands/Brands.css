@@ -1,0 +1,67 @@
+.brandssection {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.innerrow {
+    padding: 20px;
+}
+
+.buyCar {
+    position: relative;
+    font-weight: 600;
+    display: inline-block;
+    min-width: 64px;
+}
+
+.buyCarWrapper {
+    background-color: var(--color-dimgray-200);
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: var(--padding-xs) var(--padding-31xl);
+    white-space: nowrap;
+}
+
+.sellCar {
+    position: relative;
+    font-weight: 600;
+    display: inline-block;
+    min-width: 62px;
+}
+
+.buyAndSell,
+.sellCarWrapper {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center !important;
+    cursor: pointer;
+}
+
+.sellCarWrapper {
+    border: 1px solid var(--color-dimgray-200);
+    overflow: hidden;
+    padding: var(--padding-3xs) var(--padding-30xl);
+    color: var(--color-dimgray-200);
+}
+
+.buyAndSell {
+    padding: 0;
+    gap: var(--gap-6xl);
+    text-align: left;
+    font-size: var(--semi-bold-16-size);
+    color: var(--shades-white);
+    font-family: var(--semi-bold-16);
+}
+
+@media screen and (max-width: 450px) {
+    .buyAndSell {
+        flex-wrap: wrap;
+    }
+}
+
+/* new */

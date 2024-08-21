@@ -1,0 +1,248 @@
+/* Main container styling */
+.maindiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Heading styling */
+.maindiv h4 {
+    margin-bottom: 20px;
+    font-size: 1.25rem;
+    /* Adjust font size as needed */
+    text-align: center;
+}
+
+/* Logos section styling */
+.logoes {
+    display: flex;
+    flex-wrap: wrap;
+    /* Allows logos to wrap to the next line on smaller screens */
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    /* Space between logos */
+}
+
+/* Each logo card styling */
+.logoscards {
+    border-radius: 8px;
+    /* Adjust border radius as needed */
+    background-color: #fff;
+    /* Adjust background color as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    /* Adjust padding as needed */
+    width: auto;
+    /* Allows for flexible width */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Optional shadow for better visual separation */
+}
+
+/* Logo image styling */
+.marutiSuzukipngIcon {
+    height: auto;
+    /* Maintain aspect ratio */
+    width: 70px;
+    /* Adjust width as needed */
+    max-width: 100%;
+    /* Ensure logos don’t overflow their container */
+    object-fit: contain;
+    /* Maintain aspect ratio */
+}
+
+/* Media queries for responsive adjustments */
+@media (max-width: 768px) {
+    .maindiv {
+        padding: 15px;
+    }
+
+    .maindiv h4 {
+        font-size: 1rem;
+        /* Adjust font size for smaller screens */
+    }
+
+    .logoes {
+        gap: 10px;
+        /* Reduced space between logos on smaller screens */
+    }
+
+    .marutiSuzukipngIcon {
+        width: 60px;
+        /* Adjust width for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .maindiv {
+        padding: 10px;
+    }
+
+    .maindiv h4 {
+        font-size: 0.875rem;
+        /* Adjust font size for very small screens */
+    }
+
+    .logoes {
+        gap: 5px;
+        /* Further reduced space between logos on very small screens */
+    }
+
+    .marutiSuzukipngIcon {
+        width: 50px;
+        /* Adjust width for very small screens */
+    }
+}
+
+/* search */
+.searchIcon {
+    width: 28px;
+    height: 28px;
+    position: relative;
+}
+
+.searchWrapper {
+    height: 48px;
+    width: 48px;
+    border: 0.5px solid var(--color-darkgray-100);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.selectYourBudget {
+    position: relative;
+    font-size: var(--semi-bold-16-size);
+    line-height: 15px;
+    font-family: var(--semi-bold-16);
+    color: var(--color-gray-100);
+    text-align: left;
+}
+
+.searchInputLabels {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: var(--padding-8xs-5) 0 0;
+}
+
+.frameChild {
+    height: 48px;
+    width: 161px;
+    position: relative;
+    display: none;
+}
+
+.bf6340572e7389b8b545ad752218eeIcon {
+    height: 24px;
+    width: 24px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.searchInputLabelsParent {
+    flex: 1;
+    background-color: var(--shades-white);
+    border: 0.5px solid var(--color-darkgray-100);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: var(--padding-2xs) var(--padding-7xl) var(--padding-2xs) var(--padding-5xl);
+    min-width: 175px;
+    max-width: 100%;
+    gap: var(--gap-xl);
+}
+
+.type {
+    position: relative;
+    font-size: var(--semi-bold-16-size);
+    line-height: 15px;
+    font-family: var(--semi-bold-16);
+    color: var(--color-gray-100);
+    text-align: left;
+    display: inline-block;
+    min-width: 39px;
+}
+
+.frameItem {
+    height: 48px;
+    width: 84px;
+    position: relative;
+    display: none;
+}
+
+.frameParent {
+    width: 247px;
+    background-color: var(--shades-white);
+    border: 0.5px solid var(--color-darkgray-100);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: var(--padding-2xs) var(--padding-7xl) var(--padding-2xs) var(--padding-5xl);
+    gap: var(--gap-xl);
+}
+
+.seachCar {
+    position: relative;
+    font-size: var(--semi-bold-16-size);
+    line-height: 15px;
+    display: inline-block;
+    font-family: var(--semi-bold-16);
+    color: var(--shades-white);
+    text-align: center;
+    min-width: 85px;
+}
+
+.seachCarWrapper,
+.search,
+.searchInputs {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.seachCarWrapper {
+    background-color: var(--primary-color);
+    overflow: hidden;
+    padding: var(--padding-base-5) var(--padding-45xl);
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.search,
+.searchInputs {
+    max-width: 100%;
+}
+
+.searchInputs {
+    margin: 0;
+    flex: 1;
+    gap: var(--gap-6xl);
+}
+
+.search {
+    margin-top: 50px;
+    box-shadow: 0 25px 25px rgba(0, 0, 0, 0.1);
+    background-color: var(--shades-white);
+    overflow: hidden;
+    padding: var(--padding-7xl) var(--padding-21xl);
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 1350px) {
+    .searchInputs {
+        flex-wrap: wrap;
+    }
+}

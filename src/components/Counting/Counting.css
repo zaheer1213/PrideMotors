@@ -1,0 +1,326 @@
+.bgIcon {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    margin: 0 !important;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+}
+
+.ametMinimMollit,
+.numbersAreTelling {
+    position: relative;
+    display: flex;
+    align-items: start;
+    max-width: 100%;
+    z-index: 1;
+    color: white;
+}
+
+.numbersAreTelling {
+    margin: 0;
+    width: 600px;
+    font-size: inherit;
+    line-height: 79.2px;
+    font-weight: 700;
+    font-family: inherit;
+}
+
+.ametMinimMollit {
+    width: 528px;
+    height: 107.3px;
+    font-size: var(--font-size-2xl-6);
+    line-height: 33.6px;
+    flex-shrink: 0;
+}
+
+.rectangleIcon,
+.stats {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    margin: 0 !important;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    max-width: 100%;
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: var(--padding-349xl-3) var(--padding-xl) var(--padding-350xl-3) var(--padding-163xl);
+    box-sizing: border-box;
+    gap: var(--gap-27xl-1);
+}
+
+.rectangleIcon {
+    overflow: hidden;
+    max-height: 100%;
+    object-fit: cover;
+    mix-blend-mode: overlay;
+    z-index: 2;
+}
+
+.bg {
+    height: 679.2px;
+    position: relative;
+    border-radius: var(--br-xs);
+    background-color: var(--color-gray-300);
+    display: none;
+}
+
+.m,
+.ticketsDeliveredThis {
+    position: relative;
+    line-height: 80px;
+    z-index: 1;
+}
+
+.ticketsDeliveredThis {
+    font-size: var(--font-size-2xl-6);
+    line-height: 36.1px;
+    font-family: var(--wwwcars24com-inter-semi-bold-16);
+    color: var(--gray-4001);
+}
+
+.metricContainer,
+.metricValue {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.metricValue {
+    flex-direction: column;
+    gap: var(--gap-lg-1);
+}
+
+.metricContainer {
+    flex-direction: row;
+    padding: 0 var(--padding-38xl) var(--padding-2xl-1);
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.metricSeparator {
+    align-self: stretch;
+    height: 1.2px;
+    position: relative;
+    border-top: 1.2px solid var(--color-skyblue);
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.metricContainer1 {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0 var(--padding-38xl) var(--padding-lg-6);
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.metricSeparatorChild {
+    align-self: stretch;
+    flex: 1;
+    position: relative;
+    border-top: 1.2px solid var(--color-skyblue);
+    box-sizing: border-box;
+    max-width: 100%;
+    z-index: 1;
+}
+
+.metricContainer2,
+.metricSeparator1 {
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.metricSeparator1 {
+    align-self: stretch;
+    height: 3.7px;
+    display: flex;
+    align-items: flex-start;
+    padding: 0 0 var(--padding-10xs-5);
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.metricContainer2 {
+    padding: 0 var(--padding-38xl);
+}
+
+.card,
+.metricContainer2,
+.rootInner1,
+.statsParent {
+    display: flex;
+    align-items: start;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.card {
+    width: 510px;
+    border-radius: var(--br-xs);
+    background-color: var(--color-gray-300) !important;
+    color: white !important;
+    flex-direction: column;
+    padding: var(--padding-30xl-7) 0 var(--padding-40xl-5);
+    gap: var(--gap-11xl-7);
+    z-index: 3;
+    font-family: var(--font-ibm-plex-sans);
+}
+
+.rootInner1,
+.statsParent {
+    flex-direction: row;
+}
+
+.statsParent {
+    flex: 1;
+    justify-content: flex-end;
+    padding: 80px;
+    position: relative;
+    z-index: 4;
+}
+
+.rootInner1 {
+    justify-content: center;
+    padding: 0 0 var(--padding-95xl);
+    text-align: left;
+    font-size: var(--font-size-53xl);
+    color: var(--shades-white);
+    font-family: var(--semi-bold-16);
+}
+
+@media screen and (max-width: 1350px) {
+    .statsParent {
+        padding: var(--padding-101xl) var(--padding-116xl) var(--padding-102xl);
+        box-sizing: border-box;
+    }
+
+    .rootInner1 {
+        padding-bottom: var(--padding-55xl);
+        box-sizing: border-box;
+    }
+}
+
+@media screen and (max-width: 925px) {
+    .numbersAreTelling {
+        font-size: var(--font-size-39xl);
+        line-height: 63px;
+    }
+
+    .stats {
+        padding-left: var(--padding-72xl);
+        box-sizing: border-box;
+    }
+
+    .m {
+        font-size: var(--font-size-39xl);
+        line-height: 63px;
+    }
+
+    .card,
+    .statsParent {
+        box-sizing: border-box;
+        flex-direction: column;
+        /* Ensure elements stack vertically */
+        align-items: center;
+        /* Center align the content */
+    }
+
+    .rectangleIcon {
+        display: none;
+        /* Add some margin between the stacked elements */
+    }
+
+    .card {
+        gap: var(--gap-mini);
+        padding-top: var(--padding-13xl);
+        padding-bottom: var(--padding-20xl);
+        width: 100%;
+        /* Make the card take full width */
+        max-width: 100%;
+        /* Ensure it doesn't exceed container width */
+    }
+
+    .statsParent {
+        padding: var(--padding-59xl) var(--padding-48xl) var(--padding-60xl);
+    }
+
+    .rootInner1 {
+        padding-bottom: var(--padding-29xl);
+        box-sizing: border-box;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .numbersAreTelling {
+        font-size: var(--font-size-24xl);
+        line-height: 48px;
+    }
+
+    .ametMinimMollit {
+        font-size: var(--font-size-mid);
+        line-height: 27px;
+    }
+
+    .stats {
+        gap: var(--gap-4xl);
+        padding-left: var(--padding-xl);
+        box-sizing: border-box;
+        align-items: center;
+        /* Center align the stats section */
+        text-align: center;
+        /* Center text alignment */
+    }
+
+    .m {
+        font-size: var(--font-size-24xl);
+        line-height: 48px;
+    }
+
+    .ticketsDeliveredThis {
+        font-size: var(--font-size-mid);
+        line-height: 27px;
+    }
+
+    .metricContainer,
+    .metricContainer1,
+    .metricContainer2,
+    .statsParent {
+        padding-left: var(--padding-xl);
+        padding-right: var(--padding-xl);
+        box-sizing: border-box;
+    }
+
+    .card {
+        padding-top: var(--padding-13xl);
+        padding-bottom: var(--padding-20xl);
+        width: 100%;
+        /* Make the card take full width */
+        max-width: 100%;
+        /* Ensure it doesn't exceed container width */
+    }
+
+    .rectangleIcon {
+        margin-bottom: 20px;
+        /* Add some margin between the stacked elements */
+        width: 100%;
+        /* Ensure the image is responsive */
+        max-width: 100%;
+        height: auto;
+    }
+}

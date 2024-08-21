@@ -1,0 +1,78 @@
+.rootInner {
+    flex-direction: row;
+    justify-content: center;
+    padding: 0 var(--padding-xl) var(--padding-164xl-5);
+    box-sizing: border-box;
+    text-align: center;
+    font-size: var(--font-size-28xl);
+    color: var(--black);
+}
+
+.whatYouWill {
+    font-weight: bold;
+    margin-top: 50px !important;
+}
+
+.sedanIconsParent {
+    flex: 1;
+    border-radius: var(--br-3xs);
+    background: linear-gradient(90deg, #f9f9f9, #fff3f3);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: var(--padding-31xl);
+    box-sizing: border-box;
+    gap: var(--gap-5xl-2);
+    min-width: 315px;
+    max-width: 100%;
+    text-align: center;
+    font-size: var(--font-size-3xl);
+    color: var(--black);
+    font-family: var(--semi-bold-16);
+}
+
+.sedanIcons {
+    border-radius: var(--br-3xs);
+    background-color: var(--color-red-100);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--padding-5xs) var(--padding-6xs) var(--padding-5xs-9) var(--padding-5xs);
+}
+
+.sedanIcons {
+    border-radius: var(--br-3xs);
+    background-color: var(--color-red-100);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--padding-5xs) var(--padding-6xs) var(--padding-5xs-9) var(--padding-5xs);
+}
+
+.sedan1Icon {
+    width: 49.1px;
+    height: 49.1px;
+    position: relative;
+    object-fit: contain;
+}
+
+.discoverAVariety,
+.wideVehicleSelection {
+    align-self: stretch;
+    position: relative;
+    line-height: 150%;
+}
+
+.wideVehicleSelection {
+    margin: 0;
+    font-weight: bold !important;
+}
+
+.discoverAVariety {
+    font-size: var(--semi-bold-16-size);
+    color: var(--color-dimgray-200);
+}

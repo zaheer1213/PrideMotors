@@ -1,0 +1,164 @@
+/* Container */
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 15px;
+    overflow: hidden;
+}
+
+/* Row */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Column */
+.col-md-8, .col-md-4 {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Slide Container */
+.slide-container {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: #FEF3F3;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Slide Content */
+.slide-content {
+    flex: 1;
+    padding-right: 20px;
+    text-align: start;
+}
+
+/* Slide Image */
+.slide-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slide-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Arrow */
+.arrow {
+    cursor: pointer;
+    font-size: 24px;
+    color: #007bff;
+    z-index: 1;
+}
+
+.next {
+    right: 25px;
+}
+
+.prev {
+    left: 25px;
+}
+
+/* Why Choose Us Main */
+.whychooseusmain {
+    background: #FEF3F3;
+    overflow: hidden;
+}
+
+/* Empty Icon */
+.emptyIcon {
+    height: 50px;
+    line-height: 24px;
+    font-weight: 600;
+    font-size: 50px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    align-self: stretch;
+    position: relative;
+    color: gray;
+    margin-bottom: 20px;
+}
+
+/* Heading Class */
+.haedingclass {
+    padding: 20px;
+    margin-top: 20px;
+    text-align: start;
+}
+
+.haedingclass h1 {
+    font-size: 48px;
+}
+
+/* Question Image */
+.quetionimg img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Arrow Container */
+.arrow-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+
+    /* Adjust column flex direction on mobile */
+    .slide-container {
+        flex-direction: column;
+    }
+
+    /* Center content on mobile */
+    .slide-content {
+        padding-right: 0;
+        text-align: start;
+        margin-bottom: 20px;
+    }
+
+    /* Adjust image on mobile */
+    .slide-image {
+        margin-bottom: 20px;
+    }
+
+    /* Adjust font sizes for smaller screens */
+    .slide-content h1 {
+        font-size: 36px;
+    }
+
+    .slide-content p {
+        font-size: 16px;
+    }
+
+    /* Adjust heading size */
+    .haedingclass h1 {
+        font-size: 36px;
+    }
+
+    /* Adjust the arrow container on mobile */
+    .arrow-container {
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    /* Reduce padding in the main container */
+    .whychooseusmain {
+        padding: 20px;
+    }
+}
