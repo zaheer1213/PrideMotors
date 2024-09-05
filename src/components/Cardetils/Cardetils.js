@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./Cardetils.css";
-import { Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../Footer/Footer";
 import { useNavigate } from "react-router-dom";
+import NAVIGATION1 from "../NAVIGATION1/NAVIGATION1";
 
 const Cardetils = () => {
   const navigate = useNavigate();
@@ -39,27 +40,26 @@ const Cardetils = () => {
 
   return (
     <>
-      <Container fluid className="searchbar-conatiner bg-filler">
+      <NAVIGATION1 />
+      <Container  className="searchbar-conatiner bg-filler">
         <Row>
-          <Col>
-            <div className="serchbar">
-              <FontAwesomeIcon icon={faSearch} className="searchicon" />
-              <input
-                type="search"
-                placeholder="Enter Model, Brand Name"
-                className="search-input"
-              />
-              &nbsp;&nbsp;
-              <div>
-                <button
-                  className="btn inputheight"
-                  style={{ background: "red", color: "white" }}
-                >
-                  Search Car
-                </button>
-              </div>
+          <div className="serchbar">
+            <FontAwesomeIcon icon={faSearch} className="searchicon" />
+            <input
+              type="search"
+              placeholder="Enter Model, Brand Name"
+              className="search-input"
+            />
+            &nbsp;&nbsp;
+            <div>
+              <Button
+                className="btn inputheight"
+                style={{ background: "red", color: "white", width: "150px" }}
+              >
+                Search Car
+              </Button>
             </div>
-          </Col>
+          </div>
         </Row>
       </Container>
       <Container fluid className="mb-5">

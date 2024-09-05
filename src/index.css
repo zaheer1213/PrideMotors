@@ -229,3 +229,23 @@ body {
     width: auto;
   }
 }
+
+.iocn-color {
+  color: red;
+
+}
+
+.form-box {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+}
+
+.addcarform {
+  display: flex;
+  justify-content: start !important;
+  align-items: center !important;
+  text-align: start !important;
+}
+.navbar-expand-lg .navbar-nav .dropdown-menu{
+  left: -50px;
+}

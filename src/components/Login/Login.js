@@ -5,14 +5,73 @@ import {
   faRightToBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import "./Login.css";
 import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BASEURL } from "../Comman/constants";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 
 const Login = () => {
-  let [type, setType] = useState("password");
+  const { saveToken } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [type, setType] = useState("password");
+  const [errors, setErrors] = useState({});
+
+  // Function to validate the form inputs
+  const validateForm = () => {
+    let formErrors = {};
+    let valid = true;
+
+    // Email validation
+    if (!email) {
+      valid = false;
+      formErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      valid = false;
+      formErrors.email = "Email is invalid";
+    }
+
+    // Password validation
+    if (!password) {
+      valid = false;
+      formErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      valid = false;
+      formErrors.password = "Password must be at least 6 characters";
+    }
+
+    setErrors(formErrors);
+    return valid;
+  };
+
+  // Function to handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (validateForm()) {
+      try {
+        // API call using axios
+        const response = await axios.post(`${BASEURL}/accounts/login/nt/`, {
+          email,
+          password,
+        });
+        if (response) {
+          console.log("Login successful:", response.data);
+          saveToken(response.data.token);
+          navigate("/");
+        }
+
+        // Handle successful login, e.g., store token, redirect, etc.
+      } catch (error) {
+        console.error("Login error:", error);
+        setErrors({ api: "Login failed. Please try again." });
+      }
+    }
+  };
   return (
     <>
       <Container
@@ -61,7 +120,7 @@ const Login = () => {
                   grow with our powerful tools.
                 </p>
                 {/* onSubmit={handleSubmit} */}
-                <Form>
+                <Form onSubmit={handleSubmit}>
                   <Form.Group controlId="formBasicEmail" className="mb-3">
                     <Form.Label className="mb-2">Email Address</Form.Label>
                     <InputGroup>
@@ -69,15 +128,15 @@ const Login = () => {
                         className="inputheight"
                         type="email"
                         placeholder="Email address"
-                        // value={email}
-                        // onChange={(e) => setEmail(e.target.value)}
-                        // isInvalid={!!errors.email}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        isInvalid={!!errors.email}
                       />
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faEnvelope} />
                       </InputGroup.Text>
                       <Form.Control.Feedback type="invalid">
-                        {/* {errors.email} */}
+                        {errors.email}
                       </Form.Control.Feedback>
                     </InputGroup>
                   </Form.Group>
@@ -89,9 +148,9 @@ const Login = () => {
                         className="inputheight"
                         type={type}
                         placeholder="Password"
-                        // value={password}
-                        // onChange={(e) => setPassword(e.target.value)}
-                        // isInvalid={!!errors.password}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        isInvalid={!!errors.password}
                       />
                       <InputGroup.Text>
                         <FontAwesomeIcon
@@ -103,7 +162,7 @@ const Login = () => {
                         />
                       </InputGroup.Text>
                       <Form.Control.Feedback type="invalid">
-                        {/* {errors.password} */}
+                        {errors.password}
                       </Form.Control.Feedback>
                     </InputGroup>
                   </Form.Group>

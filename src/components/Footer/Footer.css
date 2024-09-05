@@ -439,9 +439,9 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     max-width: 100%;
-    gap: var(--gap-xl);
+    gap: 30px;
 }
 
 .container1,
@@ -496,6 +496,11 @@
     font-size: var(--font-size-2xl-3);
     color: var(--gray-200);
     font-family: var(--wwwcars24com-inter-semi-bold-16);
+}
+
+.socil-icon {
+    font-size: 30px;
+    color: gray;
 }
 
 @media screen and (max-width: 1825px) {

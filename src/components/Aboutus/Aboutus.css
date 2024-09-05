@@ -1,0 +1,92 @@
+.about-us-banner {
+    position: relative;
+    background-image: url('../../../public/images/carserring.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.about-us-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Semi-transparent black */
+    z-index: 1;
+    /* Ensure the overlay is on top of the image but behind the content */
+}
+
+.banner-content {
+    position: relative;
+    z-index: 2;
+    /* Place the content above the overlay */
+    text-align: center;
+    color: white;
+    padding: 20px;
+    /* Semi-transparent background for content */
+    border-radius: 10px;
+}
+
+.heading {
+    /* font-size: 2.5rem; */
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    font-size: 1.2rem;
+}
+
+.company-overview {
+    display: flex;
+    align-items: center;
+}
+
+.overview-image img {
+    border-radius: 10px;
+    max-width: 100%;
+    height: auto;
+}
+
+.overview-text h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.vision-section h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
+@media (max-width: 768px) {
+    .about-us-banner {
+        height: 40vh;
+    }
+
+    .heading {
+        font-size: 2rem;
+    }
+
+    .cta-button {
+        font-size: 1rem;
+    }
+
+    .company-overview {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .overview-image, .overview-text {
+        margin-bottom: 20px;
+    }
+}

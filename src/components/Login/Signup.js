@@ -5,45 +5,93 @@ import {
   Container,
   Form,
   InputGroup,
+  Modal,
   Row,
 } from "react-bootstrap";
-import "./Signup.css";
-import { GOOGLECLINETID } from "../Comman/constants";
-import { GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEnvelope,
   faEye,
   faEyeSlash,
+  faUser,
   faUserAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { NavLink } from "react-router-dom";
-
+import { NavLink, useNavigate } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { BASEURL, GOOGLECLINETID } from "../Comman/constants";
+import "./Signup.css";
+import axios from "axios";
 const Signup = () => {
-  let [type, setType] = useState("password");
-  let [type1, setType1] = useState("password");
+  const navigate = useNavigate();
+  const [type, setType] = useState("password");
+  const [type1, setType1] = useState("password");
   const [check, setCheck] = useState(true);
-  const [countryData, setCountryData] = useState([]);
+  const [signupData, setSignupData] = useState({
+    name: "",
+    email: "",
+    phoneno: "",
+    password: "",
+    confirmpassword: "",
+  });
+  const [file, setFile] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [message, setMessage] = useState("");
+  const [show, setShow] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefult();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setSignupData({ ...signupData, [name]: value });
   };
 
-  fetch("https://restcountries.com/v3.1/all")
-    .then((response) => response.json())
-    .then((data) => {
-      setCountryData(data);
-      // data.forEach((country) => {
-      //   console.log(`Country: ${country.name.common}`);
-      //   console.log(`Flag: ${country.flags.png}`);
-      //   console.log(`Dial Code: ${country.idd.root}${country.idd.suffixes[0]}`);
-      //   console.log("--------------");
-      // });
-    })
-    .catch((error) => console.error("Error fetching countries:", error));
+  const validateForm = () => {
+    const newErrors = {};
+    if (!signupData.name) newErrors.name = "Name is required.";
+    if (!signupData.email) newErrors.email = "Email is required.";
+    if (!signupData.phoneno) newErrors.phoneno = "Phone number is required.";
+    if (!signupData.password) newErrors.password = "Password is required.";
+    if (signupData.password !== signupData.confirmpassword)
+      newErrors.confirmpassword = "Passwords do not match.";
+    return newErrors;
+  };
 
-    
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+    } else {
+      try {
+        setErrors({});
+        const sendData = new FormData();
+        sendData.append("username", signupData.name);
+        sendData.append("email", signupData.email);
+        sendData.append("mobile_number", signupData.phoneno);
+        sendData.append("password", signupData.password);
+        sendData.append("profile_pic", file);
 
+        const response = await axios.post(
+          `${BASEURL}/accounts/register/nt/`,
+          sendData
+        );
+        if (response.data) {
+          const email = response?.data?.data?.email;
+          navigate("/verification", { state: { useremail: email } });
+        }
+      } catch (errors) {
+        console.log(errors.response.data.message);
+        const emailMessage = errors?.response?.data?.message[0];
+        const mobileMessage = errors?.response?.data?.message[1];
+
+        setMessage(emailMessage || mobileMessage || "Internal Server Error");
+        handleShow();
+      }
+    }
+  };
+
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleShow = () => setShow(true);
   return (
     <>
       <Container
@@ -54,7 +102,12 @@ const Signup = () => {
           <Row className="no-padding full-height">
             <Col md={6} className="agentCol">
               <div>
-                <img src="/images/key.png" alt="keyimg" className="imgclass" />
+                <img src="/images/final-logo-pride0104-1@2x.png" alt="pride" />
+                <img
+                  src="/images/key.png"
+                  alt="keyimg"
+                  className="imgclass mt-3"
+                />
                 <img
                   src="/images/carimages.png"
                   alt="carimg"
@@ -72,6 +125,7 @@ const Signup = () => {
                   <img
                     src="images/hand-wave-icon-18.png"
                     style={{ height: "70px", width: "70px" }}
+                    alt="wave"
                   />
                 </h1>
                 <p className="text-center">
@@ -81,21 +135,18 @@ const Signup = () => {
               </div>
               <div className="d-flex align-items-center justify-content-center">
                 <GoogleOAuthProvider clientId={GOOGLECLINETID}>
-                  <Button
-                    className="cutomebutton1"
-                    type="submit"
-                    // onClick={() => login()}
-                  >
+                  <Button className="cutomebutton1" type="submit">
                     <img
                       src="images/Group 1000006014.png"
                       height={23}
                       width={23}
+                      alt="Google"
                     />
-                    &nbsp;&nbsp;&nbsp; Sign up with Google{" "}
+                    &nbsp;&nbsp;&nbsp; Sign up with Google
                   </Button>
                 </GoogleOAuthProvider>
               </div>
-              <Form onSubmit={handleSubmit} className="mt-3">
+              <Form className="mt-3" onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicName" className="mb-3">
                   <Form.Label>Name</Form.Label>
                   <InputGroup>
@@ -103,14 +154,16 @@ const Signup = () => {
                       className="inputheight bordered-input"
                       type="text"
                       placeholder="Enter your name"
-                      // isInvalid={!!errors.name}
-                      // onChange={(e) => setName(e.target.value)}
+                      name="name"
+                      value={signupData.name}
+                      onChange={handleChange}
+                      isInvalid={!!errors.name}
                     />
                     <InputGroup.Text>
                       <FontAwesomeIcon icon={faUserAlt} />
                     </InputGroup.Text>
                     <Form.Control.Feedback type="invalid">
-                      {/* {errors.name} */}
+                      {errors.name}
                     </Form.Control.Feedback>
                   </InputGroup>
                 </Form.Group>
@@ -122,14 +175,50 @@ const Signup = () => {
                       className="inputheight"
                       type="email"
                       placeholder="Email address"
-                      // isInvalid={!!errors.email}
-                      // onChange={(e) => setEmail(e.target.value)}
+                      name="email"
+                      value={signupData.email}
+                      onChange={handleChange}
+                      isInvalid={!!errors.email}
                     />
                     <InputGroup.Text>
                       <FontAwesomeIcon icon={faEnvelope} />
                     </InputGroup.Text>
                     <Form.Control.Feedback type="invalid">
-                      {/* {errors.email} */}
+                      {errors.email}
+                    </Form.Control.Feedback>
+                  </InputGroup>
+                </Form.Group>
+                <Form.Group controlId="formBasicEmail" className="mb-3">
+                  <Form.Label>Profile Pic</Form.Label>
+                  <InputGroup>
+                    <Form.Control
+                      className="inputheight"
+                      type="file"
+                      placeholder="Email address"
+                      name="profilePic"
+                      onChange={(e) => {
+                        const selectedFile = e.target.files[0];
+                        setFile(selectedFile);
+                      }}
+                      isInvalid={!!errors.file}
+                    />
+                    <InputGroup.Text>
+                      {file ? (
+                        <img
+                          src={URL.createObjectURL(file)}
+                          alt="profile preview"
+                          style={{
+                            height: "30px",
+                            width: "30px",
+                            objectFit: "cover",
+                          }}
+                        />
+                      ) : (
+                        <FontAwesomeIcon icon={faUser} />
+                      )}
+                    </InputGroup.Text>
+                    <Form.Control.Feedback type="invalid">
+                      {errors.file}
                     </Form.Control.Feedback>
                   </InputGroup>
                 </Form.Group>
@@ -137,30 +226,17 @@ const Signup = () => {
                 <Form.Group controlId="formBasicPhone" className="mb-3">
                   <Form.Label>Phone Number</Form.Label>
                   <InputGroup>
-                    {/* <DropdownButton
-                      variant="outline-secondary"
-                      title={country.dialCode}
-                      id="input-group-dropdown-1"
-                    >
-                      {countryData.map((countryItem) => (
-                        <Dropdown.Item
-                          key={countryItem.value}
-                          onClick={() => setCountry(countryItem)}
-                        >
-                          {countryItem.flag} ({countryItem.idd.root})
-                        </Dropdown.Item>
-                      ))}
-                    </DropdownButton> */}
                     <Form.Control
                       className="inputheight"
                       type="number"
                       placeholder="00000 00000"
-                      // isInvalid={!!errors.phone}
-                      // value={phone}
-                      // onChange={(e) => setPhone(e.target.value)}
+                      name="phoneno"
+                      value={signupData.phoneno}
+                      onChange={handleChange}
+                      isInvalid={!!errors.phoneno}
                     />
                     <Form.Control.Feedback type="invalid">
-                      {/* {errors.phone} */}
+                      {errors.phoneno}
                     </Form.Control.Feedback>
                   </InputGroup>
                 </Form.Group>
@@ -172,8 +248,10 @@ const Signup = () => {
                       className="inputheight"
                       type={type}
                       placeholder="Password"
-                      // isInvalid={!!errors.password}
-                      // onChange={(e) => setPassword(e.target.value)}
+                      name="password"
+                      value={signupData.password}
+                      onChange={handleChange}
+                      isInvalid={!!errors.password}
                     />
                     <InputGroup.Text
                       onClick={() =>
@@ -186,7 +264,7 @@ const Signup = () => {
                       />
                     </InputGroup.Text>
                     <Form.Control.Feedback type="invalid">
-                      {/* {errors.password} */}
+                      {errors.password}
                     </Form.Control.Feedback>
                   </InputGroup>
                 </Form.Group>
@@ -201,8 +279,10 @@ const Signup = () => {
                       className="inputheight"
                       type={type1}
                       placeholder="Confirm Password"
-                      // isInvalid={!!errors.confirmPassword}
-                      // onChange={(e) => setConfirmPassword(e.target.value)}
+                      name="confirmpassword"
+                      value={signupData.confirmpassword}
+                      onChange={handleChange}
+                      isInvalid={!!errors.confirmpassword}
                     />
                     <InputGroup.Text
                       onClick={() =>
@@ -211,11 +291,11 @@ const Signup = () => {
                       style={{ cursor: "pointer" }}
                     >
                       <FontAwesomeIcon
-                        icon={type === "password" ? faEyeSlash : faEye}
+                        icon={type1 === "password" ? faEyeSlash : faEye}
                       />
                     </InputGroup.Text>
                     <Form.Control.Feedback type="invalid">
-                      {/* {errors.confirmPassword} */}
+                      {errors.confirmpassword}
                     </Form.Control.Feedback>
                   </InputGroup>
                 </Form.Group>
@@ -252,6 +332,18 @@ const Signup = () => {
           </Row>
         </Container>
       </Container>
+      {/* model */}
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Alert</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{message}</Modal.Body>
+        <Modal.Footer>
+          <Button style={{ background: "red" }} onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

@@ -5,10 +5,80 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import NAVIGATION1 from "../NAVIGATION1/NAVIGATION1";
 import Footer from "../Footer/Footer";
 import Modal from "react-bootstrap/Modal";
+import { BASEURL } from "../Comman/constants";
 
 const Information = () => {
   const [show, setShow] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    vehicleInterest: "",
+    inquiryType: "",
+    message: "",
+  });
+  const [errors, setErrors] = useState({});
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const validate = () => {
+    let formErrors = {};
+
+    if (!formData.firstName) formErrors.firstName = "First name is required";
+    if (!formData.lastName) formErrors.lastName = "Last name is required";
+    if (!formData.email) {
+      formErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      formErrors.email = "Email address is invalid";
+    }
+    if (!formData.phoneNumber)
+      formErrors.phoneNumber = "Phone number is required";
+    if (!formData.vehicleInterest)
+      formErrors.vehicleInterest = "Vehicle of interest is required";
+    if (!formData.inquiryType)
+      formErrors.inquiryType = "Inquiry type is required";
+    if (!formData.message) formErrors.message = "Message is required";
+
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    if (validate()) {
+      try {
+        const response = await fetch(`${BASEURL}/booking/inquiry`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+        if (response) {
+          handleClose();
+          setFormData({
+            firstName: "",
+            lastName: "",
+            email: "",
+            phoneNumber: "",
+            vehicleInterest: "",
+            inquiryType: "",
+            message: "",
+          });
+        } else {
+          console.error("Form submission failed");
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
+    }
+  };
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const images = [
@@ -293,7 +363,17 @@ const Information = () => {
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label>First name</Form.Label>
-                  <Form.Control type="email" placeholder="name@example.com" />
+                  <Form.Control
+                    type="text"
+                    placeholder="enter First name"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    isInvalid={!!errors.firstName}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.firstName}
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Col>
               <Col md={6}>
@@ -302,7 +382,17 @@ const Information = () => {
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label>Last name</Form.Label>
-                  <Form.Control type="email" placeholder="name@example.com" />
+                  <Form.Control
+                    type="text"
+                    placeholder="enter Last name"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    isInvalid={!!errors.lastName}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.lastName}
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Col>
             </Row>
@@ -313,7 +403,17 @@ const Information = () => {
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label>Email</Form.Label>
-                  <Form.Control type="email" placeholder="name@example.com" />
+                  <Form.Control
+                    type="email"
+                    placeholder="enter Email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    isInvalid={!!errors.email}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.email}
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Col>
               <Col md={6}>
@@ -322,28 +422,51 @@ const Information = () => {
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label>Phone number</Form.Label>
-                  <Form.Control type="email" placeholder="name@example.com" />
+                  <Form.Control
+                    type="number"
+                    placeholder="enter Phone number"
+                    name="phoneNumber"
+                    value={formData.phoneNumber}
+                    onChange={handleChange}
+                    isInvalid={!!errors.phoneNumber}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.phoneNumber}
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Col>
             </Row>
             <Row>
               <Col md={6}>
                 <Form.Label>Vehicle of Interest</Form.Label>
-                <Form.Select aria-label="Default select example">
-                  <option>Open this select menu</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </Form.Select>
+                <Form.Control
+                  type="text"
+                  placeholder="enter Vehicle of Interest"
+                  name="vehicleInterest"
+                  value={formData.vehicleInterest}
+                  onChange={handleChange}
+                  isInvalid={!!errors.vehicleInterest}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.vehicleInterest}
+                </Form.Control.Feedback>
               </Col>
               <Col md={6}>
                 <Form.Label>Inquiry Type</Form.Label>
-                <Form.Select aria-label="Default select example">
+                <Form.Select
+                  aria-label="Default select example"
+                  name="inquiryType"
+                  value={formData.inquiryType}
+                  onChange={handleChange}
+                  isInvalid={!!errors.inquiryType}
+                >
                   <option>Open this select menu</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <option value="for buy">for Buy</option>
+                  <option value="for sale">for Sale</option>
                 </Form.Select>
+                <Form.Control.Feedback type="invalid">
+                  {errors.inquiryType}
+                </Form.Control.Feedback>
               </Col>
             </Row>
             <Row className="mt-3">
@@ -352,13 +475,23 @@ const Information = () => {
                 controlId="exampleForm.ControlTextarea1"
               >
                 <Form.Label>Message </Form.Label>
-                <Form.Control as="textarea" rows={3} />
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  isInvalid={!!errors.message}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.message}
+                </Form.Control.Feedback>
               </Form.Group>
             </Row>
           </Form>
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-center">
-          <Button className="cutome-btn" onClick={handleClose}>
+          <Button className="cutome-btn" onClick={() => handleSubmit()}>
             Send Message
           </Button>
         </Modal.Footer>

@@ -1,10 +1,48 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import "./NAVIGATION1.css";
+import { AuthContext } from "../AuthProvider/AuthProvider";
+import axios from "axios";
+import { BASEURL } from "../Comman/constants";
+import Loader from "../Loader/Loader";
 
 const NAVIGATION1 = () => {
+  const { auth } = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  const getUserdetils = async () => {
+    try {
+      const headers = {
+        "x-access-token": auth.token,
+      };
+      setLoading(true);
+      const response = await axios.get(`${BASEURL}/accounts/user-profile`, {
+        headers,
+      });
+      if (response.data) {
+        setLoading(false);
+        setUserInfo(response?.data?.data);
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      setLoading(false);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+  };
+  useEffect(() => {
+    getUserdetils();
+  }, []);
+
+  useEffect(() => {
+    getUserdetils();
+  }, []);
   return (
     <>
+      {/* {loading ? <Loader /> : ""} */}
       <Navbar bg="light" expand="lg">
         <Container fluid>
           {/* First Column: Logo */}
@@ -24,20 +62,23 @@ const NAVIGATION1 = () => {
             {/* Second Column: Centered Text */}
             <div className="center-section mx-auto">
               <Nav className="list">
-                <Nav.Link href="#features" className="nav-link">
-                  Buy used car
+                <Nav.Link href="/" className="nav-link">
+                  Home
                 </Nav.Link>
-                <Nav.Link href="#pricing" className="nav-link">
-                  Sell car
+                <Nav.Link href="/allcarsdetils" className="nav-link">
+                  Buy Used Car
                 </Nav.Link>
-                <Nav.Link href="#about" className="nav-link">
-                  page name
+                <Nav.Link href="/vehicleinformation" className="nav-link">
+                  Sell Car
                 </Nav.Link>
-                <Nav.Link href="#pricing" className="nav-link">
-                  page name
+                <Nav.Link href="/aboutus" className="nav-link">
+                  About Us
                 </Nav.Link>
-                <Nav.Link href="#about" className="nav-link">
-                  page name
+                <Nav.Link href="/blogs" className="nav-link">
+                  Blogs
+                </Nav.Link>
+                <Nav.Link href="/contactUs" className="nav-link">
+                  Contact Us
                 </Nav.Link>
               </Nav>
             </div>
@@ -62,12 +103,20 @@ const NAVIGATION1 = () => {
                 title={<span className="dropdown-title">Account</span>}
                 id="user-nav-dropdown"
               >
-                <NavDropdown.Item href="/vehicleinformation">
+                <NavDropdown.Item href="/addcar">
                   Add Car
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/signup">Signup</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+                {auth?.token ? (
+                  <NavDropdown.Item href="" onClick={() => handleLogout()}>
+                    Log Out
+                  </NavDropdown.Item>
+                ) : (
+                  <>
+                    <NavDropdown.Item href="/signup">Signup</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+                  </>
+                )}
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>

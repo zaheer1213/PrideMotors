@@ -28,7 +28,7 @@
     font-size: inherit;
     line-height: 79.2px;
     font-weight: 700;
-    font-family: inherit;
+    font-family: "Poppins", sans-serif !important;
 }
 
 .ametMinimMollit {
@@ -88,7 +88,7 @@
 .ticketsDeliveredThis {
     font-size: var(--font-size-2xl-6);
     line-height: 36.1px;
-    font-family: var(--wwwcars24com-inter-semi-bold-16);
+    font-family: "Poppins", sans-serif !important;
     color: var(--gray-4001);
 }
 
@@ -179,7 +179,7 @@
     padding: var(--padding-30xl-7) 0 var(--padding-40xl-5);
     gap: var(--gap-11xl-7);
     z-index: 3;
-    font-family: var(--font-ibm-plex-sans);
+    font-family: "Poppins", sans-serif !important;
 }
 
 .rootInner1,
@@ -201,7 +201,7 @@
     text-align: left;
     font-size: var(--font-size-53xl);
     color: var(--shades-white);
-    font-family: var(--semi-bold-16);
+    font-family: "Poppins", sans-serif !important;
 }
 
 @media screen and (max-width: 1350px) {
@@ -268,11 +268,13 @@
 
 @media screen and (max-width: 450px) {
     .numbersAreTelling {
+        display: none;
         font-size: var(--font-size-24xl);
         line-height: 48px;
     }
 
     .ametMinimMollit {
+        display: none;
         font-size: var(--font-size-mid);
         line-height: 27px;
     }

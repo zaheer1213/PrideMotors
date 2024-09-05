@@ -1,5 +1,12 @@
 import React from "react";
 import "./Footer.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFacebook,
+  faInstagram,
+  faLinkedin,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
 
 const Footer = () => {
   return (
@@ -34,14 +41,14 @@ const Footer = () => {
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text1">Features</div>
+                          <div className="text1">Our Inventory</div>
                         </div>
                       </div>
                     </div>
-                    <div className="footerLink2">
+                    {/* <div className="footerLink2">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text2">Solutions</div>
+                          <div className="text2">Our Inventory</div>
                         </div>
                       </div>
                       <div className="badge">
@@ -49,35 +56,29 @@ const Footer = () => {
                           <div className="text3">New</div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text1">Tutorials</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink">
-                      <div className="button">
-                        <div className="buttonBase">
-                          <div className="text5">Pricing</div>
+                          <div className="text1">Key Points</div>
                         </div>
                       </div>
                     </div>
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text6">Releases</div>
+                          <div className="text5">Why Us</div>
                         </div>
                       </div>
                     </div>
-                    <div className="footerLink6">
-                      <div className="button6">
-                        <div className="buttonBase6">
-                          <div className="text7">Additional</div>
+                    <div className="footerLink">
+                      <div className="button">
+                        <div className="buttonBase">
+                          <div className="text6">Our Story</div>
                         </div>
                       </div>
                     </div>
+
                     <div className="footerLink6">
                       <div className="button6">
                         <div className="buttonBase6">
@@ -121,70 +122,21 @@ const Footer = () => {
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text13">Careers</div>
+                          <div className="text13">Sell Car</div>
                         </div>
                       </div>
                     </div>
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text14">Press</div>
+                          <div className="text14">Buy Car</div>
                         </div>
                       </div>
                     </div>
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text15">News</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink">
-                      <div className="button">
-                        <div className="buttonBase">
-                          <div className="text16">Media kit</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink">
-                      <div className="button">
-                        <div className="buttonBase">
-                          <div className="text17">Contact</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink6">
-                      <div className="button6">
-                        <div className="buttonBase6">
-                          <div className="text7">Additional</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink6">
-                      <div className="button6">
-                        <div className="buttonBase6">
-                          <div className="text7">Additional</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink6">
-                      <div className="button6">
-                        <div className="buttonBase6">
-                          <div className="text7">Additional</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink6">
-                      <div className="button6">
-                        <div className="buttonBase6">
-                          <div className="text7">Additional</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink6">
-                      <div className="button6">
-                        <div className="buttonBase6">
-                          <div className="text7">Additional</div>
+                          <div className="text6">Testimonials</div>
                         </div>
                       </div>
                     </div>
@@ -200,73 +152,11 @@ const Footer = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="footerLink">
-                      <div className="button">
-                        <div className="buttonBase">
-                          <div className="text24">Newsletter</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink">
-                      <div className="button">
-                        <div className="buttonBase">
-                          <div className="text25">Events</div>
-                        </div>
-                      </div>
-                    </div>
+
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
                           <div className="text26">Help centre</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink">
-                      <div className="button">
-                        <div className="buttonBase">
-                          <div className="text1">Tutorials</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink">
-                      <div className="button">
-                        <div className="buttonBase">
-                          <div className="text28">Support</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink6">
-                      <div className="button6">
-                        <div className="buttonBase6">
-                          <div className="text7">Additional</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink6">
-                      <div className="button6">
-                        <div className="buttonBase6">
-                          <div className="text7">Additional</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink6">
-                      <div className="button6">
-                        <div className="buttonBase6">
-                          <div className="text7">Additional</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink6">
-                      <div className="button6">
-                        <div className="buttonBase6">
-                          <div className="text7">Additional</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink6">
-                      <div className="button6">
-                        <div className="buttonBase6">
-                          <div className="text7">Additional</div>
                         </div>
                       </div>
                     </div>
@@ -275,13 +165,6 @@ const Footer = () => {
                 <div className="footerLinksColumn">
                   <div className="heading">Social</div>
                   <div className="footerLinks3">
-                    <div className="footerLink">
-                      <div className="button">
-                        <div className="buttonBase">
-                          <div className="text5">Twitter</div>
-                        </div>
-                      </div>
-                    </div>
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
@@ -299,56 +182,14 @@ const Footer = () => {
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text37">GitHub</div>
+                          <div className="text37">Instagram</div>
                         </div>
                       </div>
                     </div>
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text38">AngelList</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink">
-                      <div className="button">
-                        <div className="buttonBase">
-                          <div className="text39">Dribbble</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink6">
-                      <div className="button6">
-                        <div className="buttonBase6">
-                          <div className="text7">Additional</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink6">
-                      <div className="button6">
-                        <div className="buttonBase6">
-                          <div className="text7">Additional</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink6">
-                      <div className="button6">
-                        <div className="buttonBase6">
-                          <div className="text7">Additional</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink6">
-                      <div className="button6">
-                        <div className="buttonBase6">
-                          <div className="text7">Additional</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footerLink6">
-                      <div className="button6">
-                        <div className="buttonBase6">
-                          <div className="text7">Additional</div>
+                          <div className="text38">Youtube</div>
                         </div>
                       </div>
                     </div>
@@ -444,34 +285,22 @@ const Footer = () => {
           <div className="container1">
             <div className="content1">
               <div className="footerText">
-                © {new Date().getFullYear()} Untitled UI. All rights reserved.
+                © {new Date().getFullYear()} Connecting Dots. All rights
+                reserved.
               </div>
               <div className="socialIcons">
-                <img
-                  className="socialIcon"
-                  alt=""
-                  src="/images/social-icon-1.svg"
-                />
-                <img
-                  className="socialIcon"
-                  alt=""
-                  src="/images/social-icon-2.svg"
-                />
-                <img
-                  className="socialIcon"
-                  alt=""
-                  src="/images/social-icon-3.svg"
-                />
-                <img
-                  className="socialIcon"
-                  alt=""
-                  src="/images/social-icon-4.svg"
-                />
-                <img
-                  className="socialIcon5"
-                  alt=""
-                  src="/images/social-icon-5.svg"
-                />
+                <a href="https://www.linkedin.com/company/pride-motors-pune/?viewAsMember=true">
+                  <FontAwesomeIcon icon={faLinkedin} className="socil-icon" />
+                </a>
+                <a href="https://www.facebook.com/pridemotorspune/">
+                  <FontAwesomeIcon icon={faFacebook} className="socil-icon" />
+                </a>
+                <a href="https://www.instagram.com/pridemotorspune/">
+                  <FontAwesomeIcon icon={faInstagram} className="socil-icon" />
+                </a>
+                <a href="https://www.youtube.com/@pridemotors4842">
+                  <FontAwesomeIcon icon={faYoutube} className="socil-icon" />
+                </a>
               </div>
             </div>
           </div>
