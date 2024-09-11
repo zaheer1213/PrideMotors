@@ -5,8 +5,8 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import NAVIGATION1 from "../NAVIGATION1/NAVIGATION1";
 import Footer from "../Footer/Footer";
 import {
@@ -14,8 +14,73 @@ import {
   faMapMarkerAlt,
   faPhone,
 } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { BASEURL } from "../Comman/constants";
 
 const ContactUs = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    location: "",
+    message: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [show1, setShow1] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const validate = () => {
+    const newError = {};
+
+    if (!formData.name) newError.name = "name is require";
+    if (!formData.email) newError.email = "email is require";
+    if (!formData.phone) newError.phone = "phone is require";
+    if (!formData.location) newError.location = "location is require";
+    if (!formData.message) newError.message = "message is require";
+
+    setErrors(newError);
+    return Object.keys(newError).length === 0;
+  };
+  const handleSubmit = async () => {
+    try {
+      if (!validate()) return;
+
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        location: formData.location,
+        message: formData.message,
+      };
+      const headers = {
+        "x-access-token": localStorage.getItem("token"),
+      };
+      const response = await axios.post(`${BASEURL}/booking/contact`, payload, {
+        headers,
+      });
+      if (response.data) {
+        setShow1(true);
+        setMessage("details send successfully");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          location: "",
+          message: "",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleClose1 = () => {
+    setShow1(false);
+  };
   return (
     <>
       <NAVIGATION1 />
@@ -34,7 +99,14 @@ const ContactUs = () => {
                         <Form.Control
                           type="text"
                           placeholder="Enter your name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          isInvalid={!!errors.name}
                         />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.name}
+                        </Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                     <Col md={6}>
@@ -43,7 +115,14 @@ const ContactUs = () => {
                         <Form.Control
                           type="email"
                           placeholder="Enter your email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          isInvalid={!!errors.email}
                         />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.email}
+                        </Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                   </Row>
@@ -54,7 +133,14 @@ const ContactUs = () => {
                         <Form.Control
                           type="tel"
                           placeholder="Enter your phone number"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          isInvalid={!!errors.phone}
                         />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.phone}
+                        </Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                     <Col md={6}>
@@ -63,7 +149,14 @@ const ContactUs = () => {
                         <Form.Control
                           type="text"
                           placeholder="Enter your location"
+                          name="location"
+                          value={formData.location}
+                          onChange={handleChange}
+                          isInvalid={!!errors.location}
                         />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.location}
+                        </Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                   </Row>
@@ -73,12 +166,19 @@ const ContactUs = () => {
                       as="textarea"
                       rows={4}
                       placeholder="Your message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      isInvalid={!!errors.message}
                     />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.message}
+                    </Form.Control.Feedback>
                   </Form.Group>
                   <Button
-                    type="submit"
                     className="w-100 cutome-btn"
                     style={{ backgroundColor: "#007bff", color: "#fff" }}
+                    onClick={() => handleSubmit()}
                   >
                     Send Message
                   </Button>
@@ -187,6 +287,18 @@ const ContactUs = () => {
         </div>
       </div>
 
+      {/* Success Modal */}
+      <Modal show={show1} onHide={handleClose1}>
+        <Modal.Header closeButton>
+          <Modal.Title>Alert</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{message}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose1}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Footer />
     </>
   );

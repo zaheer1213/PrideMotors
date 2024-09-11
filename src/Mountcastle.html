@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5Q4LCQQF');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://majesticrealties.com/wp-content/uploads/2024/09/majestic.png" />
+    <title>Majestic Realties</title>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+    <style>
+        /* Container with full device width and height */
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            /* Prevent horizontal scrolling */
+        }
+
+        .majestic-main {
+            width: 100%;
+            height: 100vh;
+            background-image: url('https://majesticrealties.com/wp-content/uploads/2024/09/Backgrond.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* Two-column layout */
+        .col {
+            flex: 1;
+            padding: 20px;
+            color: #fff;
+            text-align: start;
+            font-size: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Image Styling */
+        .col img {
+            width: 100%;
+            height: auto;
+            max-width: 500px;
+            display: block;
+            margin: 0 auto;
+            /* Center the image horizontally */
+        }
+
+        /* Contact form styling */
+        .contact-form {
+            background-color: #000;
+            color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 100%;
+            align-self: flex-start;
+            margin-top: 20px;
+            box-sizing: border-box;
+        }
+
+        .contact-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 4px;
+            background: black;
+            border: 1px solid white;
+            box-sizing: border-box;
+            color: white;
+        }
+
+        .contact-form input {
+            height: 40px;
+        }
+
+        .contact-form textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        .contact-form button {
+            width: 100%;
+            background-color: #E8D48B;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .contact-form button:hover {
+            background-color: #E8D48B;
+        }
+
+        /* Adjust layout for smaller screens */
+        @media (max-width: 768px) {
+            .majestic-main {
+                flex-direction: column;
+                align-items: center;
+                height: auto;
+                padding: 10px;
+            }
+
+            .col {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .col img {
+                width: 90%;
+                max-width: 300px;
+            }
+
+            .contact-form {
+                max-width: 90%;
+                padding: 20px;
+                margin-top: 10px;
+            }
+
+            .contact-form input,
+            .contact-form textarea {
+                font-size: 16px;
+            }
+
+            .contact-form button {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-form {
+                padding: 15px;
+            }
+
+            .contact-form input,
+            .contact-form textarea {
+                font-size: 14px;
+            }
+
+            .contact-form button {
+                font-size: 16px;
+            }
+        }
+    </style>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5Q4LCQQF" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div class="majestic-main">
+        <!-- First column with the image -->
+        <div class="col">
+            <img src="https://majesticrealties.com/wp-content/uploads/2024/09/Mr.png" alt="Majestic Realties Image" />
+        </div>
+
+        <!-- Second column with the contact form -->
+        <div class="col">
+            <div class="contact-form">
+                <h2>Contact Us</h2>
+                <form id="contact-form">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Your Phone" required pattern="[0-9]{10}">
+
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize EmailJS
+        (function () {
+            emailjs.init('8znvpT6xfZYISUekJ'); // Replace with your EmailJS user ID
+        })();
+
+        document.getElementById('contact-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Send email using EmailJS
+            emailjs.sendForm('service_d3z682o', 'template_niuiyxp', this)
+                .then(function (response) {
+                    alert('Email sent successfully!', response.status, response.text);
+                }, function (error) {
+                    alert('Failed to send email.', error);
+                });
+        });
+    </script>
+</body>
+
+</html>

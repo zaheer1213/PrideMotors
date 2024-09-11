@@ -7,7 +7,7 @@ import { BASEURL } from "../Comman/constants";
 import Loader from "../Loader/Loader";
 
 const NAVIGATION1 = () => {
-  const { auth } = useContext(AuthContext);
+  const { auth, setAuth } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -32,6 +32,13 @@ const NAVIGATION1 = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("isAdmin");
+    setAuth({
+      token: "",
+      isAuthenticated: false,
+      isAdmin: false,
+    });
+    setUserInfo({});
   };
   useEffect(() => {
     getUserdetils();
@@ -68,7 +75,7 @@ const NAVIGATION1 = () => {
                 <Nav.Link href="/allcarsdetils" className="nav-link">
                   Buy Used Car
                 </Nav.Link>
-                <Nav.Link href="/vehicleinformation" className="nav-link">
+                <Nav.Link href="/addcar" className="nav-link">
                   Sell Car
                 </Nav.Link>
                 <Nav.Link href="/aboutus" className="nav-link">
@@ -93,18 +100,32 @@ const NAVIGATION1 = () => {
                 />
               </Nav.Link>
               <Nav.Link href="#user">
-                <img
-                  src="images/1dbd974090c35e48bdb8c3273b07fb4esvg@2x.png"
-                  alt="logo"
-                  className="dbd974090c35e48bdb8c3273b07fb4Icon"
-                />
+                {userInfo && userInfo?.profile_pic ? (
+                  <img
+                    src={BASEURL + userInfo.profile_pic}
+                    alt="logo"
+                    className="dbd974090c35e48bdb8c3273b07fb4Icon"
+                    style={{
+                      height: "50px",
+                      width: "50px",
+                      borderRadius: "50%",
+                    }}
+                  />
+                ) : (
+                  <img
+                    src="images/1dbd974090c35e48bdb8c3273b07fb4esvg@2x.png"
+                    alt="logo"
+                    className="dbd974090c35e48bdb8c3273b07fb4Icon"
+                  />
+                )}
               </Nav.Link>
               <NavDropdown
                 title={<span className="dropdown-title">Account</span>}
                 id="user-nav-dropdown"
               >
-                <NavDropdown.Item href="/addcar">
-                  Add Car
+                <NavDropdown.Item href="/addcar">Add Car</NavDropdown.Item>
+                <NavDropdown.Item href="/bookAppointment">
+                  Book Test Drive
                 </NavDropdown.Item>
                 {auth?.token ? (
                   <NavDropdown.Item href="" onClick={() => handleLogout()}>

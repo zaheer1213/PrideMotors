@@ -25,12 +25,12 @@ const Hero = () => {
           </Carousel.Item>
           <Carousel.Item>
             <div className="imgcol">
-              <img src="images/BANNER.png" alt="BANNER" />
+              <img src="images/BANNER (1).png" alt="BANNER" />
             </div>
           </Carousel.Item>
           <Carousel.Item>
             <div className="imgcol">
-              <img src="images/BANNER.png" alt="BANNER" />
+              <img src="images/BANNER2.png" alt="BANNER" />
             </div>
           </Carousel.Item>
         </Carousel>

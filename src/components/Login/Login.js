@@ -6,20 +6,32 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useContext } from "react";
-import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  InputGroup,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import "./Login.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASEURL } from "../Comman/constants";
 import { AuthContext } from "../AuthProvider/AuthProvider";
+import Loader from "../Loader/Loader";
 
 const Login = () => {
-  const { saveToken } = useContext(AuthContext);
+  const { saveToken, setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [type, setType] = useState("password");
   const [errors, setErrors] = useState({});
+  const [show1, setShow1] = useState(false);
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Function to validate the form inputs
   const validateForm = () => {
@@ -55,25 +67,46 @@ const Login = () => {
     if (validateForm()) {
       try {
         // API call using axios
+        setLoading(true);
         const response = await axios.post(`${BASEURL}/accounts/login/nt/`, {
           email,
           password,
         });
         if (response) {
-          console.log("Login successful:", response.data);
-          saveToken(response.data.token);
+          const data = response.data;
+          localStorage.setItem("UUID", data.user_info.id);
+          // Save token and admin status in context
+          saveToken(data.token, data.user_info.is_admin);
+
+          // If the user is an admin, redirect to the dashboard
+          setLoading(false);
+          if (data.user_info.is_admin) {
+            setAuth({
+              token: data.token,
+              isAuthenticated: true,
+              isAdmin: true,
+            });
+            navigate("/admin-allCars");
+            return;
+          }
           navigate("/");
         }
-
-        // Handle successful login, e.g., store token, redirect, etc.
       } catch (error) {
-        console.error("Login error:", error);
+        setLoading(false);
+        setShow1(true);
+        setMessage(error?.response?.data?.message);
         setErrors({ api: "Login failed. Please try again." });
       }
     }
   };
+
+  const handleClose1 = () => {
+    setShow1(false);
+  };
   return (
     <>
+      {/* loder */}
+      {loading ? <Loader /> : ""}
       <Container
         fluid
         className="d-flex align-items-center justify-content-center"
@@ -189,6 +222,19 @@ const Login = () => {
           </Row>
         </Container>
       </Container>
+
+      {/* Success Modal */}
+      <Modal show={show1} onHide={handleClose1}>
+        <Modal.Header closeButton>
+          <Modal.Title>Alert</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{message}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose1}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

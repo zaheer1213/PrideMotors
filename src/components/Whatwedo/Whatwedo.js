@@ -30,7 +30,8 @@ const Whatwedo = () => {
                 className="sedan1Icon"
                 loading="lazy"
                 alt=""
-                src="/images/sedan-1@2x.png"
+                src="/images/quality-svgrepo-com 1.png"
+                style={{ color: "white" }}
               />
             </div>
             <h4 className="wideVehicleSelection">Quality Assurance</h4>
@@ -47,7 +48,7 @@ const Whatwedo = () => {
                 className="sedan1Icon"
                 loading="lazy"
                 alt=""
-                src="/images/sedan-1@2x.png"
+                src="/images/rupee-note-svgrepo-com 1.png"
               />
             </div>
             <h4 className="wideVehicleSelection">Competitive Pricing</h4>

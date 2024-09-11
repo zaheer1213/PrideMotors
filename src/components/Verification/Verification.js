@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { BASEURL } from "../Comman/constants";
 import { useContext } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
+import Loader from "../Loader/Loader";
 
 const Verification = () => {
   const location = useLocation();
@@ -13,8 +14,9 @@ const Verification = () => {
   const [otp, setOtp] = useState(null);
   const [timeLeft, setTimeLeft] = useState(300);
   const [clintEmail, setClintEmail] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const { saveToken } = useContext(AuthContext); // Access saveToken from context
+  const { saveToken, setAuth } = useContext(AuthContext); // Access saveToken from context
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -30,15 +32,29 @@ const Verification = () => {
         email: clintEmail,
         email_otp: otp,
       };
+      setLoading(true);
       const response = await axios.post(
         `${BASEURL}/accounts/verify-otp/nt/`,
         payload
       );
+      setLoading(false);
       if (response.data.error === false) {
-        saveToken(response.data.token); // Save token in context
-        navigate("/");
+        console.log(response.data.is_admin);
+        saveToken(response.data.token, response.data.is_admin);
+        if (response.data.is_admin === true) {
+          setAuth({
+            token: response.data.token,
+            isAuthenticated: true,
+            isAdmin: true,
+          });
+        } else {
+          navigate("/");
+        }
+
+        setLoading(false);
       }
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -56,6 +72,7 @@ const Verification = () => {
 
   return (
     <>
+      {loading ? <Loader /> : ""}
       <Container
         fluid
         className="d-flex align-items-center justify-content-center full-height"

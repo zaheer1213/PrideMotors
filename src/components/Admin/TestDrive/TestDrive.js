@@ -1,20 +1,23 @@
-import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
-import "./AllUsers.css";
+import {
+  faFilter,
+  faPenToSquare,
+  faPlus,
+  faSearch,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { AgGridReact } from "ag-grid-react";
+import { Pagination, Stack } from "@mui/material";
 import { Button, Modal } from "react-bootstrap";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import axios from "axios";
 import { BASEURL } from "../../Comman/constants";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
 
-const AllUsers = () => {
-  const [limit, setLimit] = useState(15);
-  const [page, setPage] = useState(1);
-  const [allUsers, setAllUsers] = useState([]);
+const TestDrive = () => {
   const [totalPages, setTotalPages] = useState(1);
+  const [limit, setLimit] = useState(52);
+  const [page, setPage] = useState(1);
+  const [allTestDrives, setAllTestDrives] = useState([]);
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
   const [message, setMessage] = useState("");
@@ -30,37 +33,60 @@ const AllUsers = () => {
       editable: false,
     },
     {
-      headerName: "Customer Name",
-      field: "username",
+      headerName: "Full Name",
+      field: "full_name",
       sortable: true,
       filter: true,
       editable: true,
     },
     {
       headerName: "Email Address",
-      field: "email",
+      field: "email_address",
       sortable: true,
       filter: true,
       editable: true,
     },
     {
       headerName: "Phone Number",
-      field: "mobile_number",
+      field: "phone_number",
       sortable: true,
       filter: true,
       editable: true,
     },
     {
-      headerName: "Profile_pic",
-      field: "profile_pic",
+      headerName: "Date",
+      field: "date",
       sortable: true,
       filter: true,
       editable: true,
-      cellRenderer: (params) => {
-        return (
-          <img src={BASEURL + params.data.profile_pic} height={50} width={50} />
-        );
-      },
+    },
+    {
+      headerName: "Time",
+      field: "time",
+      sortable: true,
+      filter: true,
+      editable: true,
+    },
+    {
+      headerName: "Car Model",
+      field: "car_model",
+      sortable: true,
+      filter: true,
+      editable: true,
+    },
+    {
+      headerName: "Preferred Location",
+      field: "preferred_location",
+      sortable: true,
+      filter: true,
+      editable: true,
+    },
+    {
+      headerName: "Message",
+      field: "notes",
+      sortable: true,
+      filter: true,
+      editable: true,
     },
     {
       headerName: "Action",
@@ -71,11 +97,11 @@ const AllUsers = () => {
             icon={faPenToSquare}
             title="Edit"
             className="action-icon"
-          />{" "} */}
-          &nbsp;
+          /> */}
+          &nbsp;&nbsp;
           <FontAwesomeIcon
             icon={faTrash}
-            title="Edit"
+            title="Delete"
             className="action-icon"
             onClick={() => handleOpenDelete(params.value)}
           />
@@ -88,27 +114,29 @@ const AllUsers = () => {
     minWidth: 150,
     resizable: true,
   };
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
 
-  const getAllUsers = async () => {
+  const getAllEnquiries = async () => {
     try {
       const headers = {
         "x-access-token": localStorage.getItem("token"),
       };
-      const response = await axios.get(
-        `${BASEURL}/accounts/user?page=${page}&limit=${limit}`,
+      const data = await axios.get(
+        `${BASEURL}/booking/test-drive?page=${page}&limit=${limit}`,
         { headers }
       );
-      if (response) {
-        const dataWithSr = response.data.rows.map((item, index) => ({
-          ...item,
-          sr: (page - 1) * limit + index + 1,
-        }));
-        setAllUsers(dataWithSr);
-      }
+      const dataWithSr = data.data.rows.map((item, index) => ({
+        ...item,
+        sr: (page - 1) * limit + index + 1,
+      }));
+      setAllTestDrives(dataWithSr);
     } catch (error) {
       console.log(error);
     }
   };
+
   const handleOpenDelete = (id) => {
     setId(id);
     setShow(true);
@@ -121,6 +149,7 @@ const AllUsers = () => {
   const handleClose1 = () => {
     setShow1(false);
   };
+
   const handleDelete = async () => {
     handleClose();
     setLoading(true);
@@ -128,14 +157,14 @@ const AllUsers = () => {
       const headers = {
         "x-access-token": localStorage.getItem("token"),
       };
-      const response = await axios.delete(`${BASEURL}/accounts/user/${id}`, {
+      const response = await axios.delete(`${BASEURL}/cars/car-detail/${id}`, {
         headers,
       });
       setLoading(false);
       if (response.data) {
-        setMessage("User deleted successfully");
+        setMessage("Record deleted successfully");
         setShow1(true);
-        getAllUsers();
+        getAllEnquiries();
       }
     } catch (error) {
       setShow(false);
@@ -144,20 +173,17 @@ const AllUsers = () => {
       setLoading(false);
     }
   };
-  const handlePageChange = (event, value) => {
-    setPage(value);
-  };
   useEffect(() => {
-    getAllUsers();
+    getAllEnquiries();
   }, [page, limit]);
   return (
     <>
       <div style={{ marginTop: "50px" }}>
         <div className="">
-          <h1>All Users</h1>
+          <h1>Test Drive Requests</h1>
           <p>
-            View and manage all registered users efficiently. Use the table
-            below to access details, update profiles, and control user roles.
+            View and manage all Test Drive Requests efficiently. Use the table
+            below to access details, update Test Drive Requests.
           </p>
         </div>
         <div className="mt-5 mb-3 search-colum">
@@ -168,7 +194,7 @@ const AllUsers = () => {
           <div>
             <Button className="filter-btn">
               <FontAwesomeIcon icon={faFilter} /> Filters
-            </Button>
+            </Button>{" "}
           </div>
         </div>
         <div
@@ -176,7 +202,7 @@ const AllUsers = () => {
           style={{ height: 500, width: "100%" }}
         >
           <AgGridReact
-            rowData={allUsers}
+            rowData={allTestDrives}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             pagination={false}
@@ -229,4 +255,4 @@ const AllUsers = () => {
   );
 };
 
-export default AllUsers;
+export default TestDrive;

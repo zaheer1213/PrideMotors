@@ -1,26 +1,27 @@
+import { faFilter, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Pagination, Stack } from "@mui/material";
 import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
-import "./AllUsers.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Button, Modal } from "react-bootstrap";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
+import Loader from "../../Loader/Loader";
 import axios from "axios";
 import { BASEURL } from "../../Comman/constants";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
 
-const AllUsers = () => {
+const ConatctUs = () => {
+  const [loading, setLoading] = useState(false);
   const [limit, setLimit] = useState(15);
   const [page, setPage] = useState(1);
-  const [allUsers, setAllUsers] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
   const [message, setMessage] = useState("");
   const [id, setId] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [conatctUs, setConatctUs] = useState([]);
 
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
   const columnDefs = [
     {
       headerName: "Sr No",
@@ -30,52 +31,50 @@ const AllUsers = () => {
       editable: false,
     },
     {
-      headerName: "Customer Name",
-      field: "username",
+      headerName: "First name",
+      field: "name",
       sortable: true,
       filter: true,
       editable: true,
     },
     {
-      headerName: "Email Address",
+      headerName: "Email",
       field: "email",
       sortable: true,
       filter: true,
       editable: true,
     },
     {
-      headerName: "Phone Number",
-      field: "mobile_number",
+      headerName: "Phone number",
+      field: "phone",
       sortable: true,
       filter: true,
       editable: true,
     },
     {
-      headerName: "Profile_pic",
-      field: "profile_pic",
+      headerName: "Location",
+      field: "location",
       sortable: true,
       filter: true,
       editable: true,
-      cellRenderer: (params) => {
-        return (
-          <img src={BASEURL + params.data.profile_pic} height={50} width={50} />
-        );
-      },
     },
+    {
+      headerName: "Message",
+      field: "message",
+      sortable: true,
+      filter: true,
+      editable: true,
+    },
+
     {
       headerName: "Action",
       field: "id",
       cellRenderer: (params) => (
         <>
-          {/* <FontAwesomeIcon
-            icon={faPenToSquare}
-            title="Edit"
-            className="action-icon"
-          />{" "} */}
-          &nbsp;
+          &nbsp;&nbsp;
           <FontAwesomeIcon
             icon={faTrash}
-            title="Edit"
+            title="Delete"
             className="action-icon"
             onClick={() => handleOpenDelete(params.value)}
           />
@@ -89,38 +88,20 @@ const AllUsers = () => {
     resizable: true,
   };
 
-  const getAllUsers = async () => {
-    try {
-      const headers = {
-        "x-access-token": localStorage.getItem("token"),
-      };
-      const response = await axios.get(
-        `${BASEURL}/accounts/user?page=${page}&limit=${limit}`,
-        { headers }
-      );
-      if (response) {
-        const dataWithSr = response.data.rows.map((item, index) => ({
-          ...item,
-          sr: (page - 1) * limit + index + 1,
-        }));
-        setAllUsers(dataWithSr);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const handleClose = () => {
+    setShow(false);
   };
+
   const handleOpenDelete = (id) => {
     setId(id);
     setShow(true);
     setMessage("Are you sure you want to delete?");
   };
-  const handleClose = () => {
-    setShow(false);
-  };
 
   const handleClose1 = () => {
     setShow1(false);
   };
+
   const handleDelete = async () => {
     handleClose();
     setLoading(true);
@@ -128,14 +109,14 @@ const AllUsers = () => {
       const headers = {
         "x-access-token": localStorage.getItem("token"),
       };
-      const response = await axios.delete(`${BASEURL}/accounts/user/${id}`, {
+      const response = await axios.delete(`${BASEURL}/booking/contact/${id}`, {
         headers,
       });
       setLoading(false);
       if (response.data) {
-        setMessage("User deleted successfully");
+        setMessage("Enquire deleted successfully");
         setShow1(true);
-        getAllUsers();
+        getAllCars();
       }
     } catch (error) {
       setShow(false);
@@ -144,20 +125,41 @@ const AllUsers = () => {
       setLoading(false);
     }
   };
-  const handlePageChange = (event, value) => {
-    setPage(value);
+
+  const getAllCars = async () => {
+    try {
+      const headers = {
+        "x-access-token": localStorage.getItem("token"),
+      };
+      const response = await axios.get(
+        `${BASEURL}/booking/contact?page=${page}&limit=${limit}`,
+        {
+          headers,
+        }
+      );
+      if (response) {
+        const dataWithSr = response.data.rows.map((item, index) => ({
+          ...item,
+          sr: (page - 1) * limit + index + 1,
+        }));
+        setConatctUs(dataWithSr);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
-    getAllUsers();
-  }, [page, limit]);
+    getAllCars();
+  }, []);
   return (
     <>
+      {loading ? <Loader /> : ""}
       <div style={{ marginTop: "50px" }}>
         <div className="">
-          <h1>All Users</h1>
+          <h1>All Contacts</h1>
           <p>
-            View and manage all registered users efficiently. Use the table
-            below to access details, update profiles, and control user roles.
+            View and manage all Contacts efficiently. Use the table below to
+            access details, update Contacts.
           </p>
         </div>
         <div className="mt-5 mb-3 search-colum">
@@ -168,7 +170,7 @@ const AllUsers = () => {
           <div>
             <Button className="filter-btn">
               <FontAwesomeIcon icon={faFilter} /> Filters
-            </Button>
+            </Button>{" "}
           </div>
         </div>
         <div
@@ -176,7 +178,7 @@ const AllUsers = () => {
           style={{ height: 500, width: "100%" }}
         >
           <AgGridReact
-            rowData={allUsers}
+            rowData={conatctUs}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             pagination={false}
@@ -229,4 +231,4 @@ const AllUsers = () => {
   );
 };
 
-export default AllUsers;
+export default ConatctUs;

@@ -25,7 +25,7 @@
 .numbersAreTelling {
     margin: 0;
     width: 600px;
-    font-size: inherit;
+    font-size: 58px;
     line-height: 79.2px;
     font-weight: 700;
     font-family: "Poppins", sans-serif !important;
@@ -83,6 +83,7 @@
     position: relative;
     line-height: 80px;
     z-index: 1;
+    font-size: 58px;
 }
 
 .ticketsDeliveredThis {
@@ -206,7 +207,7 @@
 
 @media screen and (max-width: 1350px) {
     .statsParent {
-        padding: var(--padding-101xl) var(--padding-116xl) var(--padding-102xl);
+        /* padding: var(--padding-101xl) var(--padding-116xl) var(--padding-102xl); */
         box-sizing: border-box;
     }
 
@@ -257,7 +258,7 @@
     }
 
     .statsParent {
-        padding: var(--padding-59xl) var(--padding-48xl) var(--padding-60xl);
+        /* padding: var(--padding-59xl) var(--padding-48xl) var(--padding-60xl); */
     }
 
     .rootInner1 {
@@ -325,4 +326,30 @@
         max-width: 100%;
         height: auto;
     }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .stats {
+        display: none;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .stats {
+        display: none;
+    }
+}
+
+.countingdiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    min-height: 100vh;
+    background-image: url("../../../public/images/bg.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px;
+    margin-bottom: 20px;
 }

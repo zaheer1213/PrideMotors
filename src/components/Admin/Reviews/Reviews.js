@@ -1,25 +1,32 @@
-import { AgGridReact } from "ag-grid-react";
-import React, { useEffect, useState } from "react";
-import "./AllUsers.css";
+import {
+  faFilter,
+  faPenToSquare,
+  faPlus,
+  faSearch,
+  faStar,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Button, Modal } from "react-bootstrap";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
+import { Pagination, Stack } from "@mui/material";
+import { AgGridReact } from "ag-grid-react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Button, Modal } from "react-bootstrap";
 import { BASEURL } from "../../Comman/constants";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
+import moment from "moment/moment";
+import { useNavigate } from "react-router-dom";
 
-const AllUsers = () => {
+const Reviews = () => {
+  const [allReviews, setAllReviews] = useState([]);
   const [limit, setLimit] = useState(15);
   const [page, setPage] = useState(1);
-  const [allUsers, setAllUsers] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
   const [message, setMessage] = useState("");
   const [id, setId] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const columnDefs = [
     {
@@ -30,35 +37,70 @@ const AllUsers = () => {
       editable: false,
     },
     {
-      headerName: "Customer Name",
-      field: "username",
+      headerName: "Name",
+      field: "name",
       sortable: true,
       filter: true,
       editable: true,
     },
     {
-      headerName: "Email Address",
+      headerName: "Email",
       field: "email",
       sortable: true,
       filter: true,
       editable: true,
     },
     {
-      headerName: "Phone Number",
-      field: "mobile_number",
+      headerName: "Date",
+      field: "created_on",
+      sortable: true,
+      filter: true,
+      editable: true,
+      cellRenderer: (params) => {
+        return moment(params).format("YYYY-MM-DD");
+      },
+    },
+    {
+      headerName: "Description",
+      field: "review_text",
       sortable: true,
       filter: true,
       editable: true,
     },
     {
-      headerName: "Profile_pic",
-      field: "profile_pic",
+      headerName: "Star",
+      field: "rating",
+      sortable: true,
+      filter: true,
+      editable: true,
+      cellRenderer: (params) => {
+        const rating = Math.round(params.value);
+        const stars = [];
+
+        for (let i = 1; i <= 5; i++) {
+          if (i <= rating) {
+            stars.push("⭐"); // Filled star
+          } else {
+            stars.push(""); // Empty star
+          }
+        }
+
+        return stars.join(""); // Return the HTML for stars
+      },
+    },
+    {
+      headerName: "Image",
+      field: "image",
       sortable: true,
       filter: true,
       editable: true,
       cellRenderer: (params) => {
         return (
-          <img src={BASEURL + params.data.profile_pic} height={50} width={50} />
+          <img
+            src={BASEURL + params.data.image}
+            alt="images"
+            style={{ height: "50px", width: "50px", borderRadius: "50px" }}
+          />
         );
       },
     },
@@ -67,15 +109,16 @@ const AllUsers = () => {
       field: "id",
       cellRenderer: (params) => (
         <>
-          {/* <FontAwesomeIcon
+          <FontAwesomeIcon
             icon={faPenToSquare}
             title="Edit"
             className="action-icon"
-          />{" "} */}
-          &nbsp;
+            // onClick={() => handleEdit(params.value)}
+          />
+          &nbsp;&nbsp;
           <FontAwesomeIcon
             icon={faTrash}
-            title="Edit"
+            title="Delete"
             className="action-icon"
             onClick={() => handleOpenDelete(params.value)}
           />
@@ -88,22 +131,25 @@ const AllUsers = () => {
     minWidth: 150,
     resizable: true,
   };
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
 
-  const getAllUsers = async () => {
+  const getAllReview = async () => {
     try {
       const headers = {
         "x-access-token": localStorage.getItem("token"),
       };
       const response = await axios.get(
-        `${BASEURL}/accounts/user?page=${page}&limit=${limit}`,
+        `${BASEURL}/cars/review?page=${page}&limit=${limit}`,
         { headers }
       );
-      if (response) {
+      if (response.data) {
         const dataWithSr = response.data.rows.map((item, index) => ({
           ...item,
           sr: (page - 1) * limit + index + 1,
         }));
-        setAllUsers(dataWithSr);
+        setAllReviews(dataWithSr);
       }
     } catch (error) {
       console.log(error);
@@ -121,6 +167,7 @@ const AllUsers = () => {
   const handleClose1 = () => {
     setShow1(false);
   };
+
   const handleDelete = async () => {
     handleClose();
     setLoading(true);
@@ -128,14 +175,14 @@ const AllUsers = () => {
       const headers = {
         "x-access-token": localStorage.getItem("token"),
       };
-      const response = await axios.delete(`${BASEURL}/accounts/user/${id}`, {
+      const response = await axios.delete(`${BASEURL}/cars/review/${id}`, {
         headers,
       });
       setLoading(false);
       if (response.data) {
-        setMessage("User deleted successfully");
+        setMessage("Review deleted successfully");
         setShow1(true);
-        getAllUsers();
+        getAllReview();
       }
     } catch (error) {
       setShow(false);
@@ -144,20 +191,17 @@ const AllUsers = () => {
       setLoading(false);
     }
   };
-  const handlePageChange = (event, value) => {
-    setPage(value);
-  };
   useEffect(() => {
-    getAllUsers();
-  }, [page, limit]);
+    getAllReview();
+  }, []);
   return (
     <>
       <div style={{ marginTop: "50px" }}>
         <div className="">
-          <h1>All Users</h1>
+          <h1>All Reviews</h1>
           <p>
-            View and manage all registered users efficiently. Use the table
-            below to access details, update profiles, and control user roles.
+            View and manage all Reviews efficiently. Use the table below to
+            access details, update Reviews, and delete Reviews.
           </p>
         </div>
         <div className="mt-5 mb-3 search-colum">
@@ -168,6 +212,13 @@ const AllUsers = () => {
           <div>
             <Button className="filter-btn">
               <FontAwesomeIcon icon={faFilter} /> Filters
+            </Button>{" "}
+            &nbsp;
+            <Button
+              className="filter-btn"
+              onClick={() => navigate("/admin-review")}
+            >
+              <FontAwesomeIcon icon={faPlus} /> Add Review
             </Button>
           </div>
         </div>
@@ -176,7 +227,7 @@ const AllUsers = () => {
           style={{ height: 500, width: "100%" }}
         >
           <AgGridReact
-            rowData={allUsers}
+            rowData={allReviews}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             pagination={false}
@@ -229,4 +280,4 @@ const AllUsers = () => {
   );
 };
 
-export default AllUsers;
+export default Reviews;

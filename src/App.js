@@ -15,6 +15,18 @@ import Aboutus from "./components/Aboutus/Aboutus";
 import ContactUs from "./components/ContactUs/ContactUs";
 import Blogs from "./components/Blogs/Blogs";
 import CustomerCar from "./components/CustomerCar/CustomerCar";
+import AdminProtectedRoute from "./components/AdminProtectedRoute/AdminProtectedRoute";
+import Unauthorized from "./components/Unauthorized/Unauthorized";
+import BookAppointment from "./components/BookAppointment/BookAppointment";
+import Carsforbuy from "./components/Admin/Carsforbuy/Carsforbuy";
+import Enquiries from "./components/Admin/Enquiries/Enquiries";
+import TestDrive from "./components/Admin/TestDrive/TestDrive";
+import Reviews from "./components/Admin/Reviews/Reviews";
+import Sellingrequest from "./components/Admin/Sellingrequest/Sellingrequest";
+import ConatctUs from "./components/Admin/ContactUs/ConatctUs";
+import AddReviews from "./components/Admin/Reviews/AddReviews";
+import AdminBlogs from "./components/Admin/Blogs/Blogs";
+import Addblogs from "./components/Admin/Blogs/Addblogs";
 
 function App() {
   return (
@@ -25,19 +37,123 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/carinformation" element={<Information />} />
         <Route path="/allcarsdetils" element={<Cardetils />} />
-        <Route path="/vehicleinformation" element={<VehicleInformation />} />
         <Route path="/verification" element={<Verification />} />
         <Route path="/aboutus" element={<Aboutus />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/addcar" element={<CustomerCar />} />
+        <Route path="/bookAppointment" element={<BookAppointment />} />
 
-        {/* admin side pages */}
+        {/* Protected admin routes */}
         <Route element={<AdminLayout />}>
-          <Route path="/admin-allusers" element={<AllUsers />}></Route>
-          <Route path="/admin-allselingcars" element={<Carsforsell />}></Route>
-          <Route path="/admin-allCars" element={<AllCars />}></Route>
+          <Route
+            path="/admin-allusers"
+            element={
+              <AdminProtectedRoute>
+                <AllUsers />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/vehicleinformation"
+            element={
+              <AdminProtectedRoute>
+                <VehicleInformation />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-allselingcars"
+            element={
+              <AdminProtectedRoute>
+                <Carsforsell />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-allCars"
+            element={
+              <AdminProtectedRoute>
+                <AllCars />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-buyingcars"
+            element={
+              <AdminProtectedRoute>
+                <Carsforbuy />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-enquiries"
+            element={
+              <AdminProtectedRoute>
+                <Enquiries />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-testDrive"
+            element={
+              <AdminProtectedRoute>
+                <TestDrive />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-reviews"
+            element={
+              <AdminProtectedRoute>
+                <Reviews />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-sellingrequest"
+            element={
+              <AdminProtectedRoute>
+                <Sellingrequest />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-conatctUs"
+            element={
+              <AdminProtectedRoute>
+                <ConatctUs />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-review"
+            element={
+              <AdminProtectedRoute>
+                <AddReviews />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-blogs"
+            element={
+              <AdminProtectedRoute>
+                <AdminBlogs />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-addblogs"
+            element={
+              <AdminProtectedRoute>
+                <Addblogs />
+              </AdminProtectedRoute>
+            }
+          />
         </Route>
+
+        {/* Route for unauthorized access */}
+        <Route path="/unauthorized" element={<Unauthorized />} />
       </Routes>
     </>
   );

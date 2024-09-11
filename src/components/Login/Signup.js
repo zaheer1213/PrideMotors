@@ -21,6 +21,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { BASEURL, GOOGLECLINETID } from "../Comman/constants";
 import "./Signup.css";
 import axios from "axios";
+import Loader from "../Loader/Loader";
 const Signup = () => {
   const navigate = useNavigate();
   const [type, setType] = useState("password");
@@ -33,10 +34,11 @@ const Signup = () => {
     password: "",
     confirmpassword: "",
   });
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState("");
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,6 +64,7 @@ const Signup = () => {
     } else {
       try {
         setErrors({});
+        setLoading(true);
         const sendData = new FormData();
         sendData.append("username", signupData.name);
         sendData.append("email", signupData.email);
@@ -74,11 +77,12 @@ const Signup = () => {
           sendData
         );
         if (response.data) {
+          setLoading(false);
           const email = response?.data?.data?.email;
           navigate("/verification", { state: { useremail: email } });
         }
       } catch (errors) {
-        console.log(errors.response.data.message);
+        setLoading(false);
         const emailMessage = errors?.response?.data?.message[0];
         const mobileMessage = errors?.response?.data?.message[1];
 
@@ -94,6 +98,7 @@ const Signup = () => {
   const handleShow = () => setShow(true);
   return (
     <>
+      {loading ? <Loader /> : ""}
       <Container
         fluid
         className="d-flex align-items-center justify-content-center full-height"

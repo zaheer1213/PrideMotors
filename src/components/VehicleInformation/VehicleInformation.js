@@ -1,29 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
 import NAVIGATION1 from "../NAVIGATION1/NAVIGATION1";
 import "./VehicleInformation.css";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import { BASEURL, TOKEN } from "../Comman/constants";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Loader from "../Loader/Loader";
 
 const VehicleInformation = () => {
+  const location = useLocation();
   const [uploadedImages, setUploadedImages] = useState([]);
   const [deletedImages, setDeletedImages] = useState([]);
   const [allCarMake, setAllCarMake] = useState([]);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-
+  const [id, setId] = useState(null);
   const [formData, setFormData] = useState({
     make: "",
-    model: "",
+    car_model: "",
     year: "",
     variant: "",
     vin: "",
     mileage: "",
     price: "",
     ownership: "",
-    registrationLocation: "",
+    registration_location: "",
     insuranceValidity: "",
     fuelType: "",
     engineCapacity: "",
@@ -36,12 +40,30 @@ const VehicleInformation = () => {
     sellerInfo: "",
     contactNumber: "",
     location: "",
-    bodyStructureDamage: "",
-    floodedBody: "",
+    body_structure_damage: "",
+    flooded_body: "",
     color: "",
     totalkm: "",
+    registration_number: "",
+    registry_year: "",
+    rto_location: "",
   });
+  const [file, setFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [initialFormData, setinitialFormData] = useState({});
+  const [loading, setLoading] = useState(false);
 
+  const handleImageChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+  };
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -88,15 +110,15 @@ const VehicleInformation = () => {
   const validateForm = () => {
     const newErrors = {};
     if (!formData.make) newErrors.make = "Make is required";
-    if (!formData.model) newErrors.model = "Model is required";
+    if (!formData.car_model) newErrors.car_model = "Model is required";
     if (!formData.year) newErrors.year = "Year is required";
     if (!formData.variant) newErrors.variant = "Variant is required";
     if (!formData.vin) newErrors.vin = "vin is required";
     if (!formData.mileage) newErrors.mileage = "mileage is required";
     if (!formData.price) newErrors.price = "price is required";
     if (!formData.ownership) newErrors.ownership = "ownership is required";
-    if (!formData.registrationLocation)
-      newErrors.registrationLocation = "registration Location is required";
+    if (!formData.registration_location)
+      newErrors.registration_location = "registration Location is required";
     if (!formData.insuranceValidity)
       newErrors.insuranceValidity = "insurance Validity is required";
     if (!formData.fuelType) newErrors.fuelType = "fuelType is required";
@@ -114,12 +136,15 @@ const VehicleInformation = () => {
     if (!formData.contactNumber)
       newErrors.contactNumber = "contact Number is required";
     if (!formData.location) newErrors.location = "location is required";
-    if (!formData.bodyStructureDamage)
-      newErrors.bodyStructureDamage = "body Structure Damage is required";
-    if (!formData.floodedBody)
-      newErrors.floodedBody = "flooded Body is required";
+    if (!formData.body_structure_damage)
+      newErrors.body_structure_damage = "body Structure Damage is required";
+    if (!formData.flooded_body)
+      newErrors.flooded_body = "flooded Body is required";
     if (!formData.totalkm) newErrors.totalkm = "Total kilometer is required";
     if (!formData.color) newErrors.color = "Color is required";
+    if (!id) {
+      if (!file) newErrors.file = "File is required";
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -127,63 +152,199 @@ const VehicleInformation = () => {
 
   const handleSubmit = async () => {
     try {
+      // Form validation check
       if (!validateForm()) return;
 
       const data = new FormData();
-      data.append("make", formData.make);
-      data.append("car_title", formData.model);
-      data.append("car_model", formData.model);
-      data.append("make_year", formData.year);
-      data.append("variant", formData.variant);
-      data.append("vin", formData.vin);
-      data.append("mileage", formData.mileage);
-      data.append("price", formData.price);
-      data.append("ownership", formData.ownership);
-      data.append("registration_location", formData.registrationLocation);
-      data.append("insurance", formData.insuranceValidity);
-      data.append("fuel_type", formData.fuelType);
-      data.append("engine_capacity", formData.engineCapacity);
-      data.append("transmission", formData.transmission);
-      data.append("condition", formData.condition);
-      data.append("key_features", formData.keyFeatures);
-      data.append("convenience_feature", formData.convenienceFeatures);
-      data.append("description", formData.description);
-      data.append("warranty", formData.warranty);
-      data.append("seller_name", formData.sellerInfo);
-      data.append("contact_no", formData.contactNumber);
-      data.append("location", formData.location);
-      data.append("bodyStructureDamage", formData.bodyStructureDamage);
-      data.append("floodedBody", formData.floodedBody);
-      data.append("km_driven", formData.totalkm);
-      data.append("color", formData.color);
 
-      uploadedImages.forEach((image) => {
-        data.append("car_images", image);
-      });
-
-      const headers = {
-        "x-access-token": TOKEN,
+      // Helper function to append only changed fields (for edit mode)
+      const appendChangedFields = (field, value) => {
+        if (formData[field] !== initialFormData[field] || !id) {
+          // Append if field changed or if it's a new record (no id)
+          data.append(field, value);
+        }
       };
 
-      const response = await axios.post(`${BASEURL}/cars/car-detail`, data, {
-        headers,
-      });
-      console.log(response);
-      if (response.status === 201) {
-        navigate("/");
+      // Conditionally append fields based on whether we're editing or creating
+      appendChangedFields("make", formData.make);
+      appendChangedFields("car_title", formData.car_model);
+      appendChangedFields("car_model", formData.car_model);
+      appendChangedFields("make_year", formData.year);
+      appendChangedFields("variant", formData.variant);
+      appendChangedFields("vin", formData.vin);
+      appendChangedFields("mileage", formData.mileage);
+      appendChangedFields("price", formData.price);
+      appendChangedFields("ownership", formData.ownership);
+      appendChangedFields(
+        "registration_location",
+        formData.registration_location
+      );
+      appendChangedFields("insurance", formData.insuranceValidity);
+      appendChangedFields("fuel_type", formData.fuelType);
+      appendChangedFields("engine_capacity", formData.engineCapacity);
+      appendChangedFields("transmission", formData.transmission);
+      appendChangedFields("condition", formData.condition);
+      appendChangedFields("key_features", formData.keyFeatures);
+      appendChangedFields("convenience_feature", formData.convenienceFeatures);
+      appendChangedFields("description", formData.description);
+      appendChangedFields("warranty", formData.warranty);
+      appendChangedFields("seller_name", formData.sellerInfo);
+      appendChangedFields("contact_no", formData.contactNumber);
+      appendChangedFields("location", formData.location);
+      appendChangedFields(
+        "body_structure_damage",
+        formData.body_structure_damage
+      );
+      appendChangedFields("flooded_body", formData.flooded_body);
+      appendChangedFields("km_driven", formData.totalkm);
+      appendChangedFields("color", formData.color);
+      appendChangedFields("registration_number", formData.registration_number);
+      appendChangedFields("registry_year", formData.registry_year);
+      appendChangedFields("rto_location", formData.rto_location);
+
+      // Append image fields (only if they have changed)
+      if (file) {
+        appendChangedFields("image", file);
+      }
+
+      // Append existing images (edit mode)
+      if (id && Array.isArray(initialFormData.car_images)) {
+        initialFormData.car_images.forEach((existingImage) => {
+          data.append("car_images", existingImage.car_image);
+        });
+      }
+
+      // Append newly uploaded images
+      if (uploadedImages.length > 0) {
+        uploadedImages.forEach((image) => {
+          if (!image.isExisting) {
+            data.append("car_images", image);
+          }
+        });
+      }
+
+      const headers = {
+        "x-access-token": localStorage.getItem("token"),
+      };
+      let response;
+      if (id) {
+        // Edit mode (PUT request)
+        data.append("is_approved", true);
+        response = await axios.put(
+          `${BASEURL}/admin-dashboard/car-detail/${id}`,
+          data,
+          {
+            headers,
+          }
+        );
+      } else {
+        // Create mode (POST request)
+        data.append("is_approved", true);
+        response = await axios.post(
+          `${BASEURL}/admin-dashboard/car-detail`,
+          data,
+          {
+            headers,
+          }
+        );
+      }
+
+      if (response.status === 201 || response.data.error === false) {
+        navigate("/admin-allCars");
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  const getCarById = async (id) => {
+    try {
+      const headers = {
+        "x-access-token": localStorage.getItem("token"),
+      };
+      setLoading(true);
+      const response = await axios.get(`${BASEURL}/cars/car-detail/${id}`, {
+        headers,
+      });
+      setLoading(false);
+
+      if (response) {
+        const data = response.data.data;
+
+        // Ensure car_image is an array
+        const carImages = data.car_image ? data.car_image : [];
+
+        setFormData({
+          make: data.make,
+          car_model: data.car_model,
+          year: data.make_year,
+          variant: data.variant,
+          vin: data.vin,
+          mileage: data.mileage,
+          price: data.price,
+          ownership: data.ownership,
+          registration_location: data.registration_location,
+          insuranceValidity: data.insurance,
+          fuelType: data.fuel_type,
+          engineCapacity: data.engine_capacity,
+          transmission: data.transmission,
+          condition: data.condition,
+          keyFeatures: data.key_features,
+          convenienceFeatures: data.convenience_feature,
+          description: data.description,
+          warranty: data.warranty,
+          sellerInfo: data.seller_name,
+          contactNumber: data.contact_no,
+          location: data.location,
+          body_structure_damage: data.body_structure_damage,
+          flooded_body: data.flooded_body,
+          color: data.color,
+          totalkm: data.km_driven,
+          registration_number: data.registration_number,
+          registry_year: data.registry_year,
+          rto_location: data.rto_location,
+        });
+
+        setImagePreview(BASEURL + data.image);
+        setinitialFormData(data);
+        loadExistingImages(carImages); // Passing carImages array
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
+  const loadExistingImages = (imagesArray) => {
+    const formattedImages = imagesArray.map((image) => ({
+      id: image.id, // Use this to differentiate between server images and newly uploaded ones
+      preview: `${BASEURL}${image.car_image}`, // Full URL for displaying existing images
+      isExisting: true, // Flag to differentiate existing images from newly uploaded ones
+    }));
+    setUploadedImages((prev) => [...prev, ...formattedImages]);
+  };
+
+  const handleBack = () => {
+    window.history.back();
+  };
   useEffect(() => {
+    const carsId = location?.state?.carID;
+    if (carsId) {
+      setId(carsId);
+      getCarById(carsId);
+    }
     getAllCarBrands();
   }, []);
   return (
     <>
-      <NAVIGATION1 />
+      {loading ? <Loader /> : ""}
       <Container>
-        <Container className="py-5 vehiclapages">
+        <Container className="py-5 vehiclapages ">
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            className="backicon pointer mb-3"
+            onClick={handleBack}
+          />
           <h2>Vehicle Information</h2>
           <p>
             Complete the form below to upload your vehicle to our inventory.
@@ -233,13 +394,13 @@ const VehicleInformation = () => {
                   <Form.Control
                     type="text"
                     placeholder="Enter Model"
-                    name="model"
-                    value={formData.model}
+                    name="car_model"
+                    value={formData.car_model}
                     onChange={handleChange}
-                    isInvalid={!!errors.model}
+                    isInvalid={!!errors.car_model}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.model}
+                    {errors.car_model}
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
@@ -263,7 +424,7 @@ const VehicleInformation = () => {
                 </Form.Group>
               </Col>
             </Row>
-            <Row className="mt-5">
+            <Row className="mt-3">
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label>Variant</Form.Label>
@@ -300,7 +461,7 @@ const VehicleInformation = () => {
                 <Form.Group className="mb-3">
                   <Form.Label>Mileage</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="number"
                     placeholder="Enter Mileage"
                     name="mileage"
                     value={formData.mileage}
@@ -358,18 +519,68 @@ const VehicleInformation = () => {
                   <Form.Control
                     type="text"
                     placeholder="Enter Registration Location"
-                    name="registrationLocation"
-                    value={formData.registrationLocation}
+                    name="registration_location"
+                    value={formData.registration_location}
                     onChange={handleChange}
-                    isInvalid={!!errors.registrationLocation}
+                    isInvalid={!!errors.registration_location}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.registrationLocation}
+                    {errors.registration_location}
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
             </Row>
-            <Row>
+            <Row className="mt-3">
+              <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label>Registration Number</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Registration Number"
+                    name="registration_number"
+                    value={formData.registration_number}
+                    onChange={handleChange}
+                    isInvalid={!!errors.registration_number}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.registration_number}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label>Registry Year</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Registry Year"
+                    name="registry_year"
+                    value={formData.registry_year}
+                    onChange={handleChange}
+                    isInvalid={!!errors.registry_year}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.registry_year}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label>Rto Location</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Rto Location"
+                    name="rto_location"
+                    value={formData.rto_location}
+                    onChange={handleChange}
+                    isInvalid={!!errors.rto_location}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.rto_location}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row className="mt-3">
               <div className="text-start">
                 <Row>
                   <Col>
@@ -392,7 +603,7 @@ const VehicleInformation = () => {
                     <Form.Group className="mb-3">
                       <Form.Label>Total KM</Form.Label>
                       <Form.Control
-                        type="text"
+                        type="number"
                         placeholder="Enter Total KM"
                         name="totalkm"
                         value={formData.totalkm}
@@ -545,6 +756,30 @@ const VehicleInformation = () => {
             </Row>
             <Row className="mt-5">
               <h5>Media</h5>
+              <Col className="">
+                <Form.Label>
+                  Upload the image you want to display at the front
+                </Form.Label>
+                <Form.Control
+                  type="file"
+                  name="singleimges"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  isInvalid={!!errors.file}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.file}
+                </Form.Control.Feedback>
+                {imagePreview && (
+                  <div className="mt-3">
+                    <Image
+                      src={imagePreview}
+                      alt="Selected Preview"
+                      thumbnail
+                    />
+                  </div>
+                )}
+              </Col>
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label>Upload Images</Form.Label>
@@ -690,13 +925,13 @@ const VehicleInformation = () => {
                   <Form.Control
                     type="text"
                     placeholder="Body Structure Damage"
-                    name="bodyStructureDamage"
-                    value={formData.bodyStructureDamage}
+                    name="body_structure_damage"
+                    value={formData.body_structure_damage}
                     onChange={handleChange}
-                    isInvalid={!!errors.bodyStructureDamage}
+                    isInvalid={!!errors.body_structure_damage}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.bodyStructureDamage}
+                    {errors.body_structure_damage}
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
@@ -707,13 +942,13 @@ const VehicleInformation = () => {
                   <Form.Control
                     type="text"
                     placeholder="Flooded Body"
-                    name="floodedBody"
-                    value={formData.floodedBody}
+                    name="flooded_body"
+                    value={formData.flooded_body}
                     onChange={handleChange}
-                    isInvalid={!!errors.floodedBody}
+                    isInvalid={!!errors.flooded_body}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.floodedBody}
+                    {errors.flooded_body}
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>

@@ -1,26 +1,32 @@
+import {
+  faFilter,
+  faPenToSquare,
+  faSearch,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Pagination, Stack } from "@mui/material";
 import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
-import "./AllUsers.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Button, Modal } from "react-bootstrap";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
+import Loader from "../../Loader/Loader";
 import axios from "axios";
 import { BASEURL } from "../../Comman/constants";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
 
-const AllUsers = () => {
+function Sellingrequest() {
+  const [loading, setLoading] = useState(false);
   const [limit, setLimit] = useState(15);
   const [page, setPage] = useState(1);
-  const [allUsers, setAllUsers] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
   const [message, setMessage] = useState("");
   const [id, setId] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [sellingrequest, setSellingRequset] = useState();
 
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
   const columnDefs = [
     {
       headerName: "Sr No",
@@ -30,52 +36,125 @@ const AllUsers = () => {
       editable: false,
     },
     {
-      headerName: "Customer Name",
-      field: "username",
+      headerName: "Make",
+      field: "make",
       sortable: true,
       filter: true,
       editable: true,
     },
     {
-      headerName: "Email Address",
-      field: "email",
+      headerName: "Make Year",
+      field: "make_year",
       sortable: true,
       filter: true,
       editable: true,
     },
     {
-      headerName: "Phone Number",
-      field: "mobile_number",
+      headerName: "Ownership",
+      field: "ownership",
       sortable: true,
       filter: true,
       editable: true,
     },
     {
-      headerName: "Profile_pic",
-      field: "profile_pic",
+      headerName: "Car Name",
+      field: "car_title",
       sortable: true,
       filter: true,
       editable: true,
-      cellRenderer: (params) => {
-        return (
-          <img src={BASEURL + params.data.profile_pic} height={50} width={50} />
-        );
-      },
+    },
+    {
+      headerName: "Color",
+      field: "color",
+      sortable: true,
+      filter: true,
+      editable: true,
+    },
+    {
+      headerName: "Fuel_type",
+      field: "fuel_type",
+      sortable: true,
+      filter: true,
+      editable: true,
+    },
+    {
+      headerName: "Insurance Validity",
+      field: "insurance",
+      sortable: true,
+      filter: true,
+      editable: true,
+    },
+    {
+      headerName: "Location",
+      field: "location",
+      sortable: true,
+      filter: true,
+      editable: true,
+    },
+    {
+      headerName: "KM Driven",
+      field: "km_driven",
+      sortable: true,
+      filter: true,
+      editable: true,
+    },
+    {
+      headerName: "Price",
+      field: "price",
+      sortable: true,
+      filter: true,
+      editable: true,
+    },
+    {
+      headerName: "Registration Location",
+      field: "registration_location",
+      sortable: true,
+      filter: true,
+      editable: true,
+    },
+    {
+      headerName: "Transmission",
+      field: "transmission",
+      sortable: true,
+      filter: true,
+      editable: true,
+    },
+    {
+      headerName: "Seller Name",
+      field: "seller_name",
+      sortable: true,
+      filter: true,
+      editable: true,
+    },
+    {
+      headerName: "Contact No",
+      field: "contact_no",
+      sortable: true,
+      filter: true,
+      editable: true,
+    },
+    {
+      headerName: "Variant",
+      field: "variant",
+      sortable: true,
+      filter: true,
+      editable: true,
     },
     {
       headerName: "Action",
       field: "id",
       cellRenderer: (params) => (
         <>
-          {/* <FontAwesomeIcon
+          <FontAwesomeIcon
             icon={faPenToSquare}
             title="Edit"
             className="action-icon"
-          />{" "} */}
-          &nbsp;
+            // onClick={() => handleEdit(params.value)}
+          />
+          &nbsp;&nbsp;
           <FontAwesomeIcon
             icon={faTrash}
-            title="Edit"
+            title="Delete"
             className="action-icon"
             onClick={() => handleOpenDelete(params.value)}
           />
@@ -89,38 +168,20 @@ const AllUsers = () => {
     resizable: true,
   };
 
-  const getAllUsers = async () => {
-    try {
-      const headers = {
-        "x-access-token": localStorage.getItem("token"),
-      };
-      const response = await axios.get(
-        `${BASEURL}/accounts/user?page=${page}&limit=${limit}`,
-        { headers }
-      );
-      if (response) {
-        const dataWithSr = response.data.rows.map((item, index) => ({
-          ...item,
-          sr: (page - 1) * limit + index + 1,
-        }));
-        setAllUsers(dataWithSr);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const handleClose = () => {
+    setShow(false);
   };
+
   const handleOpenDelete = (id) => {
     setId(id);
     setShow(true);
     setMessage("Are you sure you want to delete?");
   };
-  const handleClose = () => {
-    setShow(false);
-  };
 
   const handleClose1 = () => {
     setShow1(false);
   };
+
   const handleDelete = async () => {
     handleClose();
     setLoading(true);
@@ -128,14 +189,17 @@ const AllUsers = () => {
       const headers = {
         "x-access-token": localStorage.getItem("token"),
       };
-      const response = await axios.delete(`${BASEURL}/accounts/user/${id}`, {
-        headers,
-      });
+      const response = await axios.delete(
+        `${BASEURL}/admin-dashboard/selling-request/${id}`,
+        {
+          headers,
+        }
+      );
       setLoading(false);
       if (response.data) {
-        setMessage("User deleted successfully");
+        setMessage("Enquire deleted successfully");
         setShow1(true);
-        getAllUsers();
+        getAllConatus();
       }
     } catch (error) {
       setShow(false);
@@ -144,20 +208,40 @@ const AllUsers = () => {
       setLoading(false);
     }
   };
-  const handlePageChange = (event, value) => {
-    setPage(value);
+
+  const getAllConatus = async () => {
+    try {
+      const headers = {
+        "x-access-token": localStorage.getItem("token"),
+      };
+      const response = await axios.get(
+        `${BASEURL}/admin-dashboard/selling-request?page=${page}&limit=${limit}`,
+        { headers }
+      );
+      if (response.data) {
+        const dataWithSr = response.data.rows.map((item, index) => ({
+          ...item,
+          sr: (page - 1) * limit + index + 1,
+        }));
+        setSellingRequset(dataWithSr);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   useEffect(() => {
-    getAllUsers();
-  }, [page, limit]);
+    getAllConatus();
+  }, []);
   return (
     <>
+      {loading ? <Loader /> : ""}
       <div style={{ marginTop: "50px" }}>
         <div className="">
-          <h1>All Users</h1>
+          <h1>All Selling Requests</h1>
           <p>
-            View and manage all registered users efficiently. Use the table
-            below to access details, update profiles, and control user roles.
+            View and manage all Selling Requests efficiently. Use the table
+            below to access details, update Selling Requests.
           </p>
         </div>
         <div className="mt-5 mb-3 search-colum">
@@ -168,7 +252,7 @@ const AllUsers = () => {
           <div>
             <Button className="filter-btn">
               <FontAwesomeIcon icon={faFilter} /> Filters
-            </Button>
+            </Button>{" "}
           </div>
         </div>
         <div
@@ -176,12 +260,15 @@ const AllUsers = () => {
           style={{ height: 500, width: "100%" }}
         >
           <AgGridReact
-            rowData={allUsers}
+            rowData={sellingrequest}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
             pagination={false}
             paginationPageSize={limit}
             rowSelection="multiple"
+            rowClassRules={{
+              "row-red": (params) => params.data.is_approved === false,
+            }}
           />
         </div>
         <div className="mt-4 d-flex justify-content-center">
@@ -227,6 +314,6 @@ const AllUsers = () => {
       </Modal>
     </>
   );
-};
+}
 
-export default AllUsers;
+export default Sellingrequest;

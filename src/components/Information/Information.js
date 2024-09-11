@@ -53,12 +53,22 @@ const Information = () => {
   const handleSubmit = async (e) => {
     if (validate()) {
       try {
+        const payload = {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          phone_no: formData.phoneNumber,
+          vehicle_name: formData.vehicleInterest,
+          inquiry_type: formData.inquiryType,
+          message: formData.message,
+        };
         const response = await fetch(`${BASEURL}/booking/inquiry`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token"),
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(payload),
         });
         if (response) {
           handleClose();
