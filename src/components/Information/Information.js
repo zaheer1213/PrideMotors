@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Information.css";
 import ImageGallery from "react-image-gallery";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
@@ -6,9 +6,13 @@ import NAVIGATION1 from "../NAVIGATION1/NAVIGATION1";
 import Footer from "../Footer/Footer";
 import Modal from "react-bootstrap/Modal";
 import { BASEURL } from "../Comman/constants";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const Information = () => {
+  const location = useLocation();
   const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -18,7 +22,24 @@ const Information = () => {
     inquiryType: "",
     message: "",
   });
+  const [formData1, setFormData1] = useState({
+    full_name: "",
+    email_address: "",
+    phone_number: "",
+    date: "",
+    time: "",
+    car_model: "",
+    preferred_location: "",
+    user: "",
+    car: "",
+    notes: "",
+  });
   const [errors, setErrors] = useState({});
+  const [errors1, setErrors1] = useState({});
+
+  const [carInfo, setCarInfo] = useState({});
+  const [userId, setUserId] = useState(null);
+  const [carId, setCarId] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,7 +48,10 @@ const Information = () => {
       [name]: value,
     });
   };
-
+  const handlechange1 = (e) => {
+    const { value, name } = e.target;
+    setFormData1({ ...formData, [name]: value });
+  };
   const validate = () => {
     let formErrors = {};
 
@@ -47,6 +71,26 @@ const Information = () => {
     if (!formData.message) formErrors.message = "Message is required";
 
     setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
+  };
+  const validate1 = () => {
+    let formErrors = {};
+
+    if (!formData1.full_name) formErrors.full_name = "Full name is required";
+    if (!formData1.email) {
+      formErrors.email_address = "Email address is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData1.email_address)) {
+      formErrors.email_address = "Email address is invalid";
+    }
+    if (!formData1.phone_number)
+      formErrors.phone_number = "Phone number is required";
+    if (!formData1.date) formErrors.date = "Date is required";
+    if (!formData1.time) formErrors.time = "Time is required";
+    if (!formData1.car_model) formErrors.car_model = "Car Model is required";
+    if (!formData1.preferred_location)
+      formErrors.preferred_location = "Preferred Location is required";
+
+    setErrors1(formErrors);
     return Object.keys(formErrors).length === 0;
   };
 
@@ -89,8 +133,57 @@ const Information = () => {
       }
     }
   };
+
+  const handleBook = async () => {
+    try {
+      if (!validate1()) {
+        return;
+      }
+      const headers = {
+        "x-access-token": localStorage.getItem("token"),
+      };
+      const payload = {
+        full_name: formData1.full_name,
+        email_address: formData1.email_address,
+        date: formData1.date,
+        time: formData1.time,
+        car_model: formData1.car_model,
+        preferred_location: formData1.preferred_location,
+        user: userId,
+        car: carId,
+        notes: formData1.notes,
+      };
+      const response = await axios.post(
+        `${BASEURL}/booking/test-drive`,
+        payload,
+        {
+          headers,
+        }
+      );
+      if (response.data) {
+        setShow1(false);
+        setFormData1({
+          full_name: "",
+          email_address: "",
+          phone_number: "",
+          date: "",
+          time: "",
+          car_model: "",
+          preferred_location: "",
+          user: "",
+          car: "",
+          notes: "",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleClose1 = () => setShow1(false);
+  const handleShow1 = () => setShow1(true);
   const images = [
     {
       original: "/images/toyata1.jpeg",
@@ -105,6 +198,31 @@ const Information = () => {
       thumbnail: "/images/toyata3.png",
     },
   ];
+
+  const getCarsById = async (id) => {
+    try {
+      const headers = {
+        "x-access-token": localStorage.getItem("token"),
+      };
+      const response = await axios.get(`${BASEURL}/cars/car-detail/${id}`, {
+        headers,
+      });
+      if (response.data) {
+        setCarInfo(response.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    const carID = location.state.carid;
+    if (carID) {
+      getCarsById(carID);
+      setCarId(carID);
+    }
+    const userID = localStorage.getItem("UUID");
+    setUserId(userID);
+  }, []);
   return (
     <>
       <NAVIGATION1 />
@@ -112,7 +230,7 @@ const Information = () => {
         <Row>
           <div className="breadcrumb">
             <div className="home-inventory">
-              Home /Inventory / Toyota Innova Crysta
+              Home /Inventory / {carInfo.make} {carInfo.car_model}
             </div>
           </div>
           <Col md={7}>
@@ -125,157 +243,170 @@ const Information = () => {
                 <div className="price">
                   <div className="toyota-innova-crysta-parent">
                     <b className="toyota-innova-crysta">
-                      2016 Toyota Innova Crysta
+                      {carInfo.make_year} {carInfo.make} {carInfo.car_model}
                     </b>{" "}
                     <br />
-                    <b className="toyota-innova-crysta">₹12,50,000</b>
+                    <b className="toyota-innova-crysta">₹{carInfo.price}</b>
                   </div>
                 </div>
-                <div className="the-2016-toyota">
-                  The 2016 Toyota Innova Crysta is a premium MPV known for its
-                  robust build, comfortable interiors, and reliable performance.
-                  It's an ideal family car with ample space and advanced
-                  features.
+                <div className="the-2016-toyota">{carInfo.key_features}</div>
+                <div
+                  className="buttons"
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <Button variant="danger" onClick={handleShow}>
+                    Inquiry Now
+                  </Button>{" "}
+                  &nbsp;&nbsp;
+                  <Button variant="danger" onClick={handleShow1}>
+                    Book Test Drive
+                  </Button>
                 </div>
-                <Button className="cutome-btn" onClick={handleShow}>
-                  Inquiry now
-                </Button>
               </div>
             </div>
           </Col>
         </Row>
         <Row className="py-5">
-          <Col>
-            <div className="carinformation">
-              <Row>
-                <Col md={6}>
-                  {" "}
-                  <div className="frame-container">
-                    <div className="transmission-wrapper">
-                      <img
-                        className="transmission-icon"
-                        alt=""
-                        src="/images/transmission@2x.png"
-                      />
+          {carInfo && (
+            <Col>
+              <div className="carinformation">
+                <Row>
+                  <Col md={6}>
+                    {" "}
+                    <div className="frame-container">
+                      <div className="transmission-wrapper">
+                        <img
+                          className="transmission-icon"
+                          alt=""
+                          src="/images/transmission@2x.png"
+                        />
+                      </div>
+                      <div className="transmission-parent">
+                        <div className="transmission">Transmission</div>
+                        <div className="automatic">{carInfo?.transmission}</div>
+                      </div>
                     </div>
-                    <div className="transmission-parent">
-                      <div className="transmission">transmission</div>
-                      <div className="automatic">Automatic</div>
+                  </Col>
+                  <Col md={6}>
+                    <div className="frame-container">
+                      <div className="transmission-wrapper">
+                        <img
+                          className="transmission-icon"
+                          alt=""
+                          src="/images/lifeinsurance@2x.png"
+                        />
+                      </div>
+                      <div className="transmission-parent">
+                        <div className="transmission">Insurance</div>
+                        <div className="automatic">
+                          till {carInfo.insurance}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </Col>
-                <Col md={6}>
-                  <div className="frame-container">
-                    <div className="transmission-wrapper">
-                      <img
-                        className="transmission-icon"
-                        alt=""
-                        src="/images/lifeinsurance@2x.png"
-                      />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={4}>
+                    <div className="frame-container">
+                      <div className="transmission-wrapper">
+                        <img
+                          className="transmission-icon"
+                          alt=""
+                          src="/images/factory@2x.png"
+                        />
+                      </div>
+                      <div className="transmission-parent">
+                        <div className="transmission">Make Year</div>
+                        <div className="automatic">{carInfo.registry_year}</div>
+                      </div>
                     </div>
-                    <div className="transmission-parent">
-                      <div className="transmission">insurance</div>
-                      <div className="automatic">till feb-2025</div>
+                  </Col>
+                  <Col md={4}>
+                    <div className="frame-container">
+                      <div className="transmission-wrapper">
+                        <img
+                          className="transmission-icon"
+                          alt=""
+                          src="/images/mileage@2x.png"
+                        />
+                      </div>
+                      <div className="transmission-parent">
+                        <div className="transmission">KM Driven</div>
+                        <div className="automatic">{carInfo.km_driven} km</div>
+                      </div>
                     </div>
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col md={4}>
-                  <div className="frame-container">
-                    <div className="transmission-wrapper">
-                      <img
-                        className="transmission-icon"
-                        alt=""
-                        src="/images/factory@2x.png"
-                      />
+                  </Col>
+                  <Col md={4}>
+                    <div className="frame-container">
+                      <div className="transmission-wrapper">
+                        <img
+                          className="transmission-icon"
+                          alt=""
+                          src="/images/location (2).png"
+                          style={{ height: "60px", width: "61px" }}
+                        />
+                      </div>
+                      <div className="transmission-parent">
+                        <div className="transmission">Registry Location</div>
+                        <div className="automatic">
+                          {carInfo.registration_location}
+                        </div>
+                      </div>
                     </div>
-                    <div className="transmission-parent">
-                      <div className="transmission">make year</div>
-                      <div className="automatic">2018</div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={4}>
+                    <div className="frame-container">
+                      <div className="transmission-wrapper">
+                        <img
+                          className="transmission-icon"
+                          alt=""
+                          src="/images/clipboard-1@2x copy.png"
+                        />
+                      </div>
+                      <div className="transmission-parent">
+                        <div className="transmission">Registry Year</div>
+                        <div className="automatic">{carInfo.make_year}</div>
+                      </div>
                     </div>
-                  </div>
-                </Col>
-                <Col md={4}>
-                  <div className="frame-container">
-                    <div className="transmission-wrapper">
-                      <img
-                        className="transmission-icon"
-                        alt=""
-                        src="/images/mileage@2x.png"
-                      />
+                  </Col>
+                  <Col md={4}>
+                    <div className="frame-container">
+                      <div className="transmission-wrapper">
+                        <img
+                          className="transmission-icon"
+                          alt=""
+                          src="/images/boss-1@2x.png"
+                        />
+                      </div>
+                      <div className="transmission-parent">
+                        <div className="transmission">Ownership</div>
+                        <div className="automatic">
+                          {carInfo.ownership} owner
+                        </div>
+                      </div>
                     </div>
-                    <div className="transmission-parent">
-                      <div className="transmission">KM driven</div>
-                      <div className="automatic">35,000 km</div>
+                  </Col>
+                  <Col md={4}>
+                    <div className="frame-container">
+                      <div className="transmission-wrapper">
+                        <img
+                          className="transmission-icon"
+                          alt=""
+                          src="/images/fuelstation@2x.png"
+                        />
+                      </div>
+                      <div className="transmission-parent">
+                        <div className="transmission">Fuel Type</div>
+                        <div className="automatic">{carInfo.fuel_type}</div>
+                      </div>
                     </div>
-                  </div>
-                </Col>
-                <Col md={4}>
-                  <div className="frame-container">
-                    <div className="transmission-wrapper">
-                      <img
-                        className="transmission-icon"
-                        alt=""
-                        src="/images/clipboard-1@2x copy.png"
-                      />
-                    </div>
-                    <div className="transmission-parent">
-                      <div className="transmission">registry year</div>
-                      <div className="automatic">feb 2018</div>
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col md={4}>
-                  <div className="frame-container">
-                    <div className="transmission-wrapper">
-                      <img
-                        className="transmission-icon"
-                        alt=""
-                        src="/images/clipboard-1@2x copy.png"
-                      />
-                    </div>
-                    <div className="transmission-parent">
-                      <div className="transmission">registry year</div>
-                      <div className="automatic">feb 2018</div>
-                    </div>
-                  </div>
-                </Col>
-                <Col md={4}>
-                  <div className="frame-container">
-                    <div className="transmission-wrapper">
-                      <img
-                        className="transmission-icon"
-                        alt=""
-                        src="/images/boss-1@2x.png"
-                      />
-                    </div>
-                    <div className="transmission-parent">
-                      <div className="transmission">ownership</div>
-                      <div className="automatic">2nd owner</div>
-                    </div>
-                  </div>
-                </Col>
-                <Col md={4}>
-                  <div className="frame-container">
-                    <div className="transmission-wrapper">
-                      <img
-                        className="transmission-icon"
-                        alt=""
-                        src="/images/fuelstation@2x.png"
-                      />
-                    </div>
-                    <div className="transmission-parent">
-                      <div className="transmission">fuel type</div>
-                      <div className="automatic">petrol</div>
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-            </div>
-          </Col>
+                  </Col>
+                </Row>
+              </div>
+            </Col>
+          )}
         </Row>
         <Row>
           <Col>
@@ -503,6 +634,164 @@ const Information = () => {
         <Modal.Footer className="d-flex justify-content-center">
           <Button className="cutome-btn" onClick={() => handleSubmit()}>
             Send Message
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={show1} onHide={handleClose1} className="popupmodel">
+        <Modal.Header closeButton>
+          <Modal.Title>Book a Test Drive</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Book a free test drive today and get behind the wheel to feel the
+          performance and comfort firsthand.
+          <Form className="mt-3">
+            <Row>
+              <Col md={6}>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Full Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="enter Full Name"
+                    name="firstName"
+                    value={formData1.full_name}
+                    onChange={handlechange1}
+                    isInvalid={!!errors1.full_name}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors1.full_name}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Phone Number</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="enter Phone Number"
+                    name="lastName"
+                    value={formData1.phone_number}
+                    onChange={handlechange1}
+                    isInvalid={!!errors1.phone_number}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors1.phone_number}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="enter Email"
+                    name="email"
+                    value={formData1.email_address}
+                    onChange={handlechange1}
+                    isInvalid={!!errors1.email_address}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors1.email_address}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Car Model</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="enter Car Model"
+                    name="phoneNumber"
+                    value={formData1.car_model}
+                    onChange={handlechange1}
+                    isInvalid={!!errors1.car_model}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors1.car_model}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Label>Preferred Location</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="enter Preferred Location"
+                  name="vehicleInterest"
+                  value={formData1.preferred_location}
+                  onChange={handlechange1}
+                  isInvalid={!!errors1.preferred_location}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors1.preferred_location}
+                </Form.Control.Feedback>
+              </Col>
+              <Col md={6}>
+                <Form.Label>Date</Form.Label>
+                <Form.Control
+                  type="date"
+                  placeholder="enter Date"
+                  name="vehicleInterest"
+                  value={formData1.date}
+                  onChange={handlechange1}
+                  isInvalid={!!errors1.date}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors1.date}
+                </Form.Control.Feedback>
+              </Col>
+            </Row>
+            <Row className="mt-3">
+              <Col md={6}>
+                <Form.Label>Time</Form.Label>
+                <Form.Control
+                  type="time"
+                  placeholder="enter Vehicle of Interest"
+                  name="vehicleInterest"
+                  value={formData1.time}
+                  onChange={handlechange1}
+                  isInvalid={!!errors1.time}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors1.time}
+                </Form.Control.Feedback>
+              </Col>
+              <Col md={6}>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlTextarea1"
+                >
+                  <Form.Label>Message </Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    name="message"
+                    value={formData1.message}
+                    onChange={handlechange1}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-center">
+          <Button className="cutome-btn" onClick={() => handleBook()}>
+            Book Now
           </Button>
         </Modal.Footer>
       </Modal>

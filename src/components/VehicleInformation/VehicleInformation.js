@@ -215,11 +215,10 @@ const VehicleInformation = () => {
       }
 
       // Append newly uploaded images
+      console.log(uploadedImages, uploadedImages.length);
       if (uploadedImages.length > 0) {
         uploadedImages.forEach((image) => {
-          if (!image.isExisting) {
-            data.append("car_images", image);
-          }
+          data.append("car_images", image);
         });
       }
 

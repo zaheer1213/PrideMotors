@@ -92,7 +92,7 @@
 }
 
 .frame-container {
-    width: 230px;
+    width: 265px;
     overflow: hidden;
     flex-shrink: 0;
     justify-content: flex-start;
@@ -147,6 +147,10 @@
     width: 60%;
 }
 
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
 
 @media (max-width: 768px) {
     .price {

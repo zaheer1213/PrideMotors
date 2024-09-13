@@ -4,6 +4,9 @@ import Footer from "../Footer/Footer";
 import { Col, Container, Row, Button, Card } from "react-bootstrap";
 import "./Aboutus.css"; // Make sure to create this CSS file
 import TeamMember from "../TeamMember/TeamMember";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Aboutus = () => {
   const teamMembers = [
@@ -26,6 +29,13 @@ const Aboutus = () => {
       image: "/images/team3.jpg",
     },
   ];
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+  };
 
   return (
     <>
@@ -54,17 +64,9 @@ const Aboutus = () => {
           <Col md={6} className="overview-text">
             <h2>Company Overview</h2>
             <p>
-              Pride Motor is your trusted partner in the world of pre-owned
-              vehicles, proudly serving the PCMC and Pune region. We specialize
-              in connecting buyers with high-quality, thoroughly inspected
-              pre-owned cars that offer exceptional value and reliability. At
-              Pride Motor, we understand that buying a car is a significant
-              investment, which is why we are committed to providing a
-              transparent, hassle-free experience for our customers. Whether
-              you're looking to buy your first car, upgrade to a better model,
-              or sell your current vehicle, Pride Motor is here to guide you
-              every step of the way with expert advice and unmatched customer
-              service.
+              Pride motors working since 2010 in the market, we Deal in used
+              cars. We build a trust to the customers from last 14 years. We
+              provide Transparent Deal to the customer’s.
             </p>
           </Col>
         </Row>
@@ -73,15 +75,13 @@ const Aboutus = () => {
           <Col md={12}>
             <h2 className="text-center">Our Vision</h2>
             <p>
-              Our vision at Pride Motor is to become the most trusted and
-              preferred destination for buying and selling pre-owned cars in
-              PCMC and Pune. We aim to set a new standard in the industry by
-              offering an unparalleled customer experience that is built on
-              transparency, trust, and a genuine commitment to quality. By
-              consistently delivering value through rigorous vehicle
-              inspections, fair pricing, and a seamless transaction process, we
-              aspire to empower our customers to make informed decisions with
-              confidence and pride in their purchase.
+              To be India’s most trusted destination for quality used cars,
+              offering transparent, customer-focused solutions that blend
+              digital convenience with comprehensive vehicle assurance, while
+              making car ownership accessible and affordable for every Indian.
+              This vision highlights trust, customer focus, digital integration,
+              quality assurance, and affordability—key factors for succeeding in
+              the Indian used car market.
             </p>
           </Col>
         </Row>

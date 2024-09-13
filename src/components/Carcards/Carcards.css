@@ -331,6 +331,7 @@
     flex-direction: row;
     align-items: flex-start;
     cursor: pointer;
+    margin-top: 10px;
 }
 
 .enquireNowWrapper {

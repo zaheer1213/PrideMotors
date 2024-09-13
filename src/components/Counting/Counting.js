@@ -68,19 +68,17 @@ const Counting = () => {
               <div className="bg" />
               <div className="metricContainer">
                 <div className="metricValue">
-                  <div className="m">2M+</div>
+                  <div className="m">2.5K+</div>
                   <div className="ticketsDeliveredThis">
-                    Tickets Delivered This Month
+                    Successfully Delivered Cars
                   </div>
                 </div>
               </div>
               <div className="metricSeparator" />
               <div className="metricContainer1">
                 <div className="metricValue">
-                  <div className="m">46K+</div>
-                  <div className="ticketsDeliveredThis">
-                    Active Customers Rate
-                  </div>
+                  <div className="m">2.6K+</div>
+                  <div className="ticketsDeliveredThis">Happy Customers</div>
                 </div>
               </div>
               <div className="metricSeparator1">
@@ -88,7 +86,7 @@ const Counting = () => {
               </div>
               <div className="metricContainer2">
                 <div className="metricValue">
-                  <div className="m">99%</div>
+                  <div className="m">90%</div>
                   <div className="ticketsDeliveredThis">
                     Customer Satisfaction Rate
                   </div>
