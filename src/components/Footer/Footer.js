@@ -23,8 +23,9 @@ const Footer = () => {
                   src="/images/final-logo-pride0104-1@2x.png"
                 />
                 <div className="supportingText">
-                  Design amazing digital experiences that create more happy in
-                  the world.
+                  Pride motors working since 2010 in the market, we Deal in used
+                  cars. We build a trust to the customers from last 14 years. We
+                  provide Transparent Deal to the customer’s.
                 </div>
               </div>
               <div className="links">
@@ -34,14 +35,18 @@ const Footer = () => {
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text">Overview</div>
+                          <a href="/" className="hrefrtag">
+                            <div className="text">Home</div>
+                          </a>
                         </div>
                       </div>
                     </div>
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text1">Our Inventory</div>
+                          <a href="/allcarsdetils" className="hrefrtag">
+                            <div className="text1">Our Inventory</div>
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -57,13 +62,6 @@ const Footer = () => {
                         </div>
                       </div>
                     </div> */}
-                    <div className="footerLink">
-                      <div className="button">
-                        <div className="buttonBase">
-                          <div className="text1">Key Points</div>
-                        </div>
-                      </div>
-                    </div>
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
@@ -115,21 +113,27 @@ const Footer = () => {
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text6">About us</div>
+                          <a href="/aboutus" className="hrefrtag">
+                            <div className="text6">About us</div>
+                          </a>
                         </div>
                       </div>
                     </div>
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text13">Sell Car</div>
+                          <a href="/addcar" className="hrefrtag">
+                            <div className="text13">Sell Car</div>
+                          </a>
                         </div>
                       </div>
                     </div>
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text14">Buy Car</div>
+                          <a href="/allcarsdetils" className="hrefrtag">
+                            <div className="text14">Buy Car</div>
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -148,7 +152,9 @@ const Footer = () => {
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text23">Blog</div>
+                          <a href="/blogs" className="hrefrtag">
+                            <div className="text23">Blog</div>
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -156,7 +162,9 @@ const Footer = () => {
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text26">Help centre</div>
+                          <a href="/contactUs" className="hrefrtag">
+                            <div className="text26">Help centre</div>
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -168,28 +176,50 @@ const Footer = () => {
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text35">LinkedIn</div>
+                          <a
+                            href="https://www.linkedin.com/company/pride-motors-pune/?viewAsMember=true"
+                            className="hrefrtag"
+                          >
+                            {" "}
+                            <div className="text35">LinkedIn</div>
+                          </a>
                         </div>
                       </div>
                     </div>
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text36">Facebook</div>
+                          <a
+                            href="https://www.facebook.com/pridemotorspune/"
+                            className="hrefrtag"
+                          >
+                            <div className="text36">Facebook</div>
+                          </a>
                         </div>
                       </div>
                     </div>
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text37">Instagram</div>
+                          <a
+                            href="https://www.instagram.com/pridemotorspune/"
+                            className="hrefrtag"
+                          >
+                            {" "}
+                            <div className="text37">Instagram</div>
+                          </a>
                         </div>
                       </div>
                     </div>
                     <div className="footerLink">
                       <div className="button">
                         <div className="buttonBase">
-                          <div className="text38">Youtube</div>
+                          <a
+                            href="https://www.youtube.com/@pridemotors4842"
+                            className="hrefrtag"
+                          >
+                            <div className="text38">Youtube</div>
+                          </a>
                         </div>
                       </div>
                     </div>

@@ -47,12 +47,106 @@ const VehicleInformation = () => {
     registration_number: "",
     registry_year: "",
     rto_location: "",
+    type: "",
   });
   const [file, setFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [initialFormData, setinitialFormData] = useState({});
   const [loading, setLoading] = useState(false);
 
+  const carTypes = [
+    {
+      id: 1,
+      name: "Hatchback",
+      value: "Hatchback",
+    },
+    {
+      id: 2,
+      name: "SUV",
+      value: "SUV",
+    },
+    {
+      id: 3,
+      name: "Sports car",
+      value: "Sports car",
+    },
+    {
+      id: 4,
+      name: "Hatchback",
+      value: "Hatchback",
+    },
+    {
+      id: 5,
+      name: "Sedan",
+      value: "Sedan",
+    },
+    {
+      id: 6,
+      name: "Convertible",
+      value: "Convertible",
+    },
+    {
+      id: 7,
+      name: "Hybrid",
+      value: "Hybrid",
+    },
+    {
+      id: 8,
+      name: "Pickup truck",
+      value: "Pickup truck",
+    },
+
+    {
+      id: 9,
+      name: "Luxury",
+      value: "Luxury",
+    },
+    {
+      id: 10,
+      name: "Station Wagon",
+      value: "hatchback",
+    },
+    {
+      id: 11,
+      name: "Compact car",
+      value: "Compact car",
+    },
+    {
+      id: 12,
+      name: "Jeep",
+      value: "Jeep",
+    },
+    {
+      id: 13,
+      name: "Compact car",
+      value: "Compact car",
+    },
+    {
+      id: 14,
+      name: "Coupe",
+      value: "Coupe",
+    },
+    {
+      id: 15,
+      name: "Minivan",
+      value: "Minivan",
+    },
+    {
+      id: 16,
+      name: "Crossover",
+      value: "Crossover",
+    },
+    {
+      id: 17,
+      name: "Electric vehicle",
+      value: "Electric vehicle",
+    },
+    {
+      id: 18,
+      name: "Limousine",
+      value: "Limousine",
+    },
+  ];
   const handleImageChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
@@ -201,6 +295,7 @@ const VehicleInformation = () => {
       appendChangedFields("registration_number", formData.registration_number);
       appendChangedFields("registry_year", formData.registry_year);
       appendChangedFields("rto_location", formData.rto_location);
+      appendChangedFields("car_type", formData.type);
 
       // Append image fields (only if they have changed)
       if (file) {
@@ -302,6 +397,7 @@ const VehicleInformation = () => {
           registration_number: data.registration_number,
           registry_year: data.registry_year,
           rto_location: data.rto_location,
+          type: data.car_type,
         });
 
         setImagePreview(BASEURL + data.image);
@@ -320,7 +416,7 @@ const VehicleInformation = () => {
       preview: `${BASEURL}${image.car_image}`, // Full URL for displaying existing images
       isExisting: true, // Flag to differentiate existing images from newly uploaded ones
     }));
-    setUploadedImages((prev) => [...prev, ...formattedImages]);
+    setUploadedImages((prev) => [ ...formattedImages]);
   };
 
   const handleBack = () => {
@@ -358,6 +454,31 @@ const VehicleInformation = () => {
                   className="mb-3"
                   controlId="exampleForm.ControlInput1"
                 >
+                  <Form.Label>Type</Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    name="type"
+                    onChange={handleChange}
+                    value={formData.type}
+                    isInvalid={!!errors.type}
+                  >
+                    <option>Open this select menu</option>
+                    {carTypes.map((row) => (
+                      <option value={row.name} key={row.id}>
+                        {row.name}{" "}
+                      </option>
+                    ))}
+                  </Form.Select>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.type}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
                   <Form.Label>Make</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
@@ -384,6 +505,7 @@ const VehicleInformation = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
+
               <Col>
                 <Form.Group
                   className="mb-3"

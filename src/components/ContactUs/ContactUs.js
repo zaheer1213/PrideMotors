@@ -198,8 +198,8 @@ const ContactUs = () => {
                       className="me-2 iocn-color"
                     />
                     <span>
-                      Old Mumbai - Pune Hwy, Kasarwadi, Pimpri-Chinchwad,
-                      Maharashtra 411034
+                      Near Yamaha Showroom old Mumbai-pune Highway kasarwadi
+                      Nashik phata pune 411034.
                     </span>
                   </div>
                   <div className="d-flex align-items-center mb-3">
@@ -208,7 +208,7 @@ const ContactUs = () => {
                       size="lg"
                       className="me-2 iocn-color"
                     />
-                    <span>info@example.com</span>
+                    <span>Pridemotors24@gmail.com</span>
                   </div>
                   <div className="d-flex align-items-center mb-3">
                     <FontAwesomeIcon
@@ -216,7 +216,10 @@ const ContactUs = () => {
                       size="lg"
                       className="me-2 iocn-color"
                     />
-                    <span>(123) 456-7890</span>
+                    <span>
+                      9049977555 / 8668756527 / 7769961883 / 8237769690 /
+                      9226379364.
+                    </span>
                   </div>
                 </div>
                 <div className="text-center">

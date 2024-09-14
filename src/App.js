@@ -27,6 +27,7 @@ import ConatctUs from "./components/Admin/ContactUs/ConatctUs";
 import AddReviews from "./components/Admin/Reviews/AddReviews";
 import AdminBlogs from "./components/Admin/Blogs/Blogs";
 import Addblogs from "./components/Admin/Blogs/Addblogs";
+import GetBlogsById from "./components/Blogs/GetBlogsById";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <Route path="/aboutus" element={<Aboutus />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/blogs" element={<Blogs />} />
+        <Route path="/particularblog" element={<GetBlogsById />} />
         <Route path="/addcar" element={<CustomerCar />} />
         <Route path="/bookAppointment" element={<BookAppointment />} />
 

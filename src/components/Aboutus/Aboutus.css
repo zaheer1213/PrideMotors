@@ -90,3 +90,86 @@
         margin-bottom: 20px;
     }
 }
+
+/* Padding on both sides of the slider container */
+.slider-container {
+    padding: 0 40px;
+    /* Adjust this value for more or less space on the sides */
+    margin: 0 auto;
+}
+
+.slick-slide {
+    display: flex !important;
+    justify-content: center;
+    align-items: start;
+    height: auto;
+    box-sizing: border-box;
+}
+
+/* Adjust the width of the team member card for smaller screens */
+.team-member-card {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: start;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* For Mobile screens */
+@media (max-width: 768px) {
+    .slider-container {
+        padding: 0 10px;
+        /* Reduce padding for smaller screens */
+    }
+
+    .team-member-card {
+        padding: 15px;
+        /* Slightly reduce padding on smaller screens */
+    }
+
+    .slick-slide {
+        margin: 0 10px;
+        /* Add some space between slides on mobile */
+    }
+
+    .slick-next, .slick-prev {
+        display: none;
+        /* Hide arrows on mobile for cleaner design */
+    }
+}
+
+.slick-prev, .slick-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    /* Vertically center */
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Optional: Adds background for visibility */
+    border: none;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+}
+
+.slick-prev {
+    left: -30px;
+    /* Move it slightly outside the slider */
+}
+
+.slick-next {
+    right: -30px;
+    /* Move it slightly outside the slider */
+}
+
+.slick-prev:hover, .slick-next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Optional: Change color on hover */
+}
+
+/* Hide arrows on mobile */
+@media (max-width: 768px) {
+    .slick-prev, .slick-next {
+        display: none;
+    }
+}

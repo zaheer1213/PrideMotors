@@ -138,7 +138,7 @@ const Signup = () => {
                   customers, and grow your business effortlessly.
                 </p>
               </div>
-              <div className="d-flex align-items-center justify-content-center">
+              {/* <div className="d-flex align-items-center justify-content-center">
                 <GoogleOAuthProvider clientId={GOOGLECLINETID}>
                   <Button className="cutomebutton1" type="submit">
                     <img
@@ -150,7 +150,7 @@ const Signup = () => {
                     &nbsp;&nbsp;&nbsp; Sign up with Google
                   </Button>
                 </GoogleOAuthProvider>
-              </div>
+              </div> */}
               <Form className="mt-3" onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicName" className="mb-3">
                   <Form.Label>Name</Form.Label>

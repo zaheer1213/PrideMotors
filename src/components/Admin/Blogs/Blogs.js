@@ -38,39 +38,58 @@ const Blogs = () => {
       editable: false,
     },
     {
-      headerName: "First name",
-      field: "name",
+      headerName: "Title",
+      field: "title",
       sortable: true,
       filter: true,
       editable: true,
     },
     {
-      headerName: "Email",
-      field: "email",
+      headerName: "Sub Title",
+      field: "slug",
       sortable: true,
       filter: true,
       editable: true,
     },
     {
-      headerName: "Phone number",
-      field: "phone",
+      headerName: "Short Description",
+      field: "content",
       sortable: true,
       filter: true,
       editable: true,
     },
     {
-      headerName: "Location",
-      field: "location",
+      headerName: "Long Description",
+      field: "blog_summary",
       sortable: true,
       filter: true,
       editable: true,
     },
     {
-      headerName: "Message",
-      field: "message",
+      headerName: "Image",
+      field: "image",
       sortable: true,
       filter: true,
       editable: true,
+      cellRenderer: (params) => {
+        return (
+          <img
+            src={BASEURL + params.value}
+            alt=""
+            style={{ height: "50px", width: "50px" }}
+          />
+        );
+      },
+    },
+    {
+      headerName: "is_published",
+      field: "is_published",
+      sortable: true,
+      filter: true,
+      editable: true,
+      cellRenderer: (params) => {
+        return params.data.is_published === true ? "true" : "false";
+      },
     },
 
     {
@@ -116,12 +135,12 @@ const Blogs = () => {
       const headers = {
         "x-access-token": localStorage.getItem("token"),
       };
-      const response = await axios.delete(`${BASEURL}/booking/contact/${id}`, {
+      const response = await axios.delete(`${BASEURL}/cars/blog/${id}`, {
         headers,
       });
       setLoading(false);
       if (response.data) {
-        setMessage("Enquire deleted successfully");
+        setMessage("Blog deleted successfully");
         setShow1(true);
         getAllCars();
       }
@@ -139,7 +158,7 @@ const Blogs = () => {
         "x-access-token": localStorage.getItem("token"),
       };
       const response = await axios.get(
-        `${BASEURL}/booking/contact?page=${page}&limit=${limit}`,
+        `${BASEURL}/cars/blog?page=${page}&limit=${limit}`,
         {
           headers,
         }

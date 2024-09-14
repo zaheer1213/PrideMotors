@@ -40,6 +40,7 @@ const Information = () => {
   const [carInfo, setCarInfo] = useState({});
   const [userId, setUserId] = useState(null);
   const [carId, setCarId] = useState(null);
+  const [images, setimages] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -184,20 +185,6 @@ const Information = () => {
 
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
-  const images = [
-    {
-      original: "/images/toyata1.jpeg",
-      thumbnail: "/images/toyata1.jpeg",
-    },
-    {
-      original: "/images/toyata2.jpeg",
-      thumbnail: "/images/toyata2.jpeg",
-    },
-    {
-      original: "/images/toyata3.png",
-      thumbnail: "/images/toyata3.png",
-    },
-  ];
 
   const getCarsById = async (id) => {
     try {
@@ -209,6 +196,11 @@ const Information = () => {
       });
       if (response.data) {
         setCarInfo(response.data.data);
+        const images = response.data.data.car_image.map((item) => ({
+          original: `${BASEURL}${item.car_image}`, // Full image
+          thumbnail: `${BASEURL}${item.car_image}`, // Thumbnail
+        }));
+        setimages(images);
       }
     } catch (error) {
       console.log(error);

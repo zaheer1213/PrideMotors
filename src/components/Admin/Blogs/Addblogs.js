@@ -1,7 +1,11 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
+import { BASEURL } from "../../Comman/constants";
+import { useNavigate } from "react-router-dom";
 
 const Addblogs = () => {
+  const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [errors, setErrors] = useState({});
@@ -10,6 +14,7 @@ const Addblogs = () => {
     subtitle: "",
     shorttext: "",
     longtext: "",
+    ispublished: true,
   });
 
   const handleChange = (e) => {
@@ -41,8 +46,27 @@ const Addblogs = () => {
     }
   };
 
-  const handleSubmit = () => {
-    if (!validate()) return;
+  const handleSubmit = async () => {
+    try {
+      if (!validate()) return;
+
+      const data = new FormData();
+      data.append("title", fomrData.title);
+      data.append("slug", fomrData.subtitle);
+      data.append("content", fomrData.shorttext);
+      data.append("blog_summary", fomrData.longtext);
+      data.append("is_published", fomrData.ispublished);
+      data.append("image", file);
+      data.append("author", "pride motors");
+
+      const response = await axios.post(`${BASEURL}/cars/blog`, data);
+      if (response.data) {
+        console.log(response);
+        navigate("/admin-blogs");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -168,6 +192,20 @@ const Addblogs = () => {
                     )}
                   </Col>
                 </Row>
+              </Col>
+              <Col md={6}>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput2"
+                >
+                  <Form.Label>Is Publish</Form.Label>
+                  <Form.Check
+                    type="checkbox"
+                    name="ispublished"
+                    onChange={handleChange}
+                    checked={fomrData.ispublished}
+                  />
+                </Form.Group>
               </Col>
             </Row>
           </Form>

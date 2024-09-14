@@ -12,7 +12,7 @@ const TeamMember = ({ member }) => {
           <Card.Subtitle className="mb-2 text-muted">
             {member.role}
           </Card.Subtitle>
-          <Card.Text>{member.bio}</Card.Text>
+          {/* <Card.Text>{member.bio}</Card.Text> */}
         </Card.Body>
       </Card>
     </>

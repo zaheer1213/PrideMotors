@@ -68,8 +68,8 @@
 }
 
 .image5Icon {
-    position: absolute;
-    width: calc(100% - 11.9px);
+    /* position: absolute; */
+    width: 100%;
     top: 0;
     right: 5.9px;
     left: 6px;

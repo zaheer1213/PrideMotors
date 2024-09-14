@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NAVIGATION1 from "../NAVIGATION1/NAVIGATION1";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import Footer from "../Footer/Footer";
+import axios from "axios";
+import { BASEURL } from "../Comman/constants";
+import { Pagination, Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Blogs = () => {
+  const [allBlogs, setAllBlogs] = useState([]);
+  const [limit, setLimit] = useState(15);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const navigate = useNavigate();
+
   const blogdetils = [
     {
       id: 1,
@@ -36,6 +46,37 @@ const Blogs = () => {
         "When it comes to buying a car, safety should be a top priority. This blog post highlights the essential safety features that every modern car should have. We’ll explain the benefits of advanced driver-assistance systems (ADAS), including automatic emergency braking, lane departure warnings, and electronic stability control (ESC). You’ll also learn about the importance of airbags, rearview cameras, and adaptive cruise control. Whether you’re looking for a new or used vehicle, these features will provide enhanced protection for you and your passengers, making your driving experience safer and more secure.",
     },
   ];
+
+  const getAllBlogs = async () => {
+    try {
+      const headers = {
+        "x-access-token": localStorage.getItem("token"),
+      };
+      const response = await axios.get(
+        `${BASEURL}/cars/blog?page=${page}&limit=${limit}`,
+        {
+          headers,
+        }
+      );
+      if (response) {
+        setAllBlogs(response.data.rows);
+        setTotalPages(response.data.pages_count);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
+
+  const movetoblog = (id) => {
+    navigate("/particularblog", { state: id });
+  };
+  useEffect(() => {
+    getAllBlogs();
+  }, [page, limit]);
   return (
     <>
       <NAVIGATION1 />
@@ -44,23 +85,45 @@ const Blogs = () => {
       </div>
       <Container className="py-5">
         <Row>
-          {blogdetils.map((res) => (
-            <Col md={4} className="mb-4">
-              <Card className="team-member-card">
-                <Card.Img src={res.image} alt="image" />
-                <Card.Body>
-                  <Card.Title>{res.title}</Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted mt-3">
-                    {res.Subtitle}
-                  </Card.Subtitle>
-                  <Card.Text>{res.shortText}</Card.Text>
-                  <div className="">
-                    <Button className="cutome-btn">Learn more</Button>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
+          {allBlogs && allBlogs.length > 0 ? (
+            <>
+              {allBlogs.map((res) => (
+                <Col md={4} className="mb-4" key={res.id}>
+                  <Card className="team-member-card">
+                    <Card.Img src={BASEURL + res.image} alt="image" />
+                    <Card.Body>
+                      <Card.Title>{res.title}</Card.Title>
+                      <Card.Subtitle className="mb-2 text-muted mt-3">
+                        {res.slug}
+                      </Card.Subtitle>
+                      <Card.Text>{res.content}</Card.Text>
+                      <div className="">
+                        <Button
+                          className="cutome-btn"
+                          onClick={() => movetoblog(res.id)}
+                        >
+                          Learn more
+                        </Button>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+              <div className="mt-4 d-flex justify-content-center">
+                <Stack spacing={2}>
+                  <Pagination
+                    count={totalPages}
+                    page={page}
+                    onChange={handlePageChange}
+                    variant="outlined"
+                    className="custom-pagination"
+                  />
+                </Stack>
+              </div>
+            </>
+          ) : (
+            <td>No Data Found</td>
+          )}
         </Row>
       </Container>
       <Footer />

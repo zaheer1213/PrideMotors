@@ -621,3 +621,7 @@
         gap: var(--gap-2xl);
     }
 }
+
+.hrefrtag {
+    color: white !important;
+}
