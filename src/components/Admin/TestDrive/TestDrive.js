@@ -157,9 +157,12 @@ const TestDrive = () => {
       const headers = {
         "x-access-token": localStorage.getItem("token"),
       };
-      const response = await axios.delete(`${BASEURL}/cars/car-detail/${id}`, {
-        headers,
-      });
+      const response = await axios.delete(
+        `${BASEURL}/booking/test-drive/${id}`,
+        {
+          headers,
+        }
+      );
       setLoading(false);
       if (response.data) {
         setMessage("Record deleted successfully");

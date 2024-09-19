@@ -152,6 +152,11 @@
     justify-content: space-between;
 }
 
+.the-2016-toyota{
+    height: auto;
+    width: 100%;
+    overflow-y: auto;
+}
 @media (max-width: 768px) {
     .price {
         font-size: 19px;

@@ -1,5 +1,6 @@
 import React from "react";
 import "./Carbrands.css";
+import Carcards from "../Carcards/Carcards";
 
 const Carbrands = () => {
   const carTypes = [
@@ -95,6 +96,13 @@ const Carbrands = () => {
       value: "Limousine",
     },
   ];
+
+  const handleChange = (e) => {
+    const budget = e.target.value;
+    const str = budget.split("-");
+    const minPrice = str[0];
+    const maxPrice = str[1];
+  };
   return (
     <>
       <div className="maindiv">
@@ -189,14 +197,17 @@ const Carbrands = () => {
               <img className="searchIcon" alt="" src="/images/search.svg" />
             </div>
             <div className="">
-              <select className="searchInputLabelsParent">
+              <select
+                className="searchInputLabelsParent"
+                onChange={handleChange}
+              >
                 <option>Select your Budget</option>
-                <option>Less than 50K </option>
-                <option>50K - 1L</option>
-                <option>1L - 1.5L</option>
-                <option>1.5L - 2L</option>
-                <option>2L - 2.5L</option>
-                <option>2.5L - 3L</option>
+                <option value="50000">Less than 50K </option>
+                <option value="50000 - 100000">50K - 1L</option>
+                <option value="100000 - 150000">1L - 1.5L</option>
+                <option value="150000 - 200000">1.5L - 2L</option>
+                <option value="200000 - 250000">2L - 2.5L</option>
+                <option value="250000 - 30000">2.5L - 3L</option>
               </select>
             </div>
             <div className="">
@@ -215,6 +226,8 @@ const Carbrands = () => {
           </form>
         </div>
       </div>
+
+      <Carcards />
     </>
   );
 };

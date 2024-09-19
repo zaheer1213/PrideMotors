@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const Blogs = () => {
   const [allBlogs, setAllBlogs] = useState([]);
-  const [limit, setLimit] = useState(15);
+  const [limit, setLimit] = useState(4);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
@@ -88,7 +88,7 @@ const Blogs = () => {
           {allBlogs && allBlogs.length > 0 ? (
             <>
               {allBlogs.map((res) => (
-                <Col md={4} className="mb-4" key={res.id}>
+                <Col className="mb-5" key={res.id}>
                   <Card className="team-member-card">
                     <Card.Img src={BASEURL + res.image} alt="image" />
                     <Card.Body>

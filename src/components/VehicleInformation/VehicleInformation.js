@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
-import NAVIGATION1 from "../NAVIGATION1/NAVIGATION1";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Image,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import "./VehicleInformation.css";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
@@ -53,6 +60,8 @@ const VehicleInformation = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [initialFormData, setinitialFormData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [show1, setShow1] = useState(false);
+  const [message, setMessage] = useState("");
 
   const carTypes = [
     {
@@ -239,7 +248,9 @@ const VehicleInformation = () => {
     if (!id) {
       if (!file) newErrors.file = "File is required";
     }
-
+    if (uploadedImages.length === 0) {
+      newErrors.uploadedImages = "please upload minimum 3 images";
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -310,7 +321,7 @@ const VehicleInformation = () => {
       }
 
       // Append newly uploaded images
-      console.log(uploadedImages, uploadedImages.length);
+
       if (uploadedImages.length > 0) {
         uploadedImages.forEach((image) => {
           data.append("car_images", image);
@@ -347,7 +358,11 @@ const VehicleInformation = () => {
         navigate("/admin-allCars");
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.errors.image[0]);
+      const error1 =
+        error?.response?.data?.errors?.image[0] || "something went wrong";
+      setShow1(true);
+      setMessage(error1);
     }
   };
 
@@ -416,11 +431,14 @@ const VehicleInformation = () => {
       preview: `${BASEURL}${image.car_image}`, // Full URL for displaying existing images
       isExisting: true, // Flag to differentiate existing images from newly uploaded ones
     }));
-    setUploadedImages((prev) => [ ...formattedImages]);
+    setUploadedImages((prev) => [...formattedImages]);
   };
 
   const handleBack = () => {
     window.history.back();
+  };
+  const handleClose1 = () => {
+    setShow1(false);
   };
   useEffect(() => {
     const carsId = location?.state?.carID;
@@ -910,6 +928,7 @@ const VehicleInformation = () => {
                       Drag & drop some images here, or click to select files
                     </p>
                   </div>
+                  <p className="text-danger"> {errors.uploadedImages}</p>
                 </Form.Group>
               </Col>
 
@@ -1083,6 +1102,19 @@ const VehicleInformation = () => {
           </div>
         </Container>
       </Container>
+
+      {/* Success Modal */}
+      <Modal show={show1} onHide={handleClose1}>
+        <Modal.Header closeButton>
+          <Modal.Title>Alert</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{message}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose1}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

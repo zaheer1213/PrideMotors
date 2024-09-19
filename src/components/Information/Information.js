@@ -41,6 +41,7 @@ const Information = () => {
   const [userId, setUserId] = useState(null);
   const [carId, setCarId] = useState(null);
   const [images, setimages] = useState([]);
+  const [token, setToken] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,7 +52,7 @@ const Information = () => {
   };
   const handlechange1 = (e) => {
     const { value, name } = e.target;
-    setFormData1({ ...formData, [name]: value });
+    setFormData1({ ...formData1, [name]: value });
   };
   const validate = () => {
     let formErrors = {};
@@ -78,7 +79,7 @@ const Information = () => {
     let formErrors = {};
 
     if (!formData1.full_name) formErrors.full_name = "Full name is required";
-    if (!formData1.email) {
+    if (!formData1.email_address) {
       formErrors.email_address = "Email address is required";
     } else if (!/\S+@\S+\.\S+/.test(formData1.email_address)) {
       formErrors.email_address = "Email address is invalid";
@@ -107,7 +108,7 @@ const Information = () => {
           inquiry_type: formData.inquiryType,
           message: formData.message,
         };
-        const response = await fetch(`${BASEURL}/booking/inquiry`, {
+        const response = await fetch(`${BASEURL}/booking/enquiry`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -214,6 +215,8 @@ const Information = () => {
     }
     const userID = localStorage.getItem("UUID");
     setUserId(userID);
+    const token = localStorage.getItem("token");
+    setToken(token);
   }, []);
   return (
     <>
@@ -241,7 +244,9 @@ const Information = () => {
                     <b className="toyota-innova-crysta">₹{carInfo.price}</b>
                   </div>
                 </div>
-                <div className="the-2016-toyota">{carInfo.key_features}</div>
+                <div className="the-2016-toyota">
+                  <p>{carInfo.key_features}</p>
+                </div>
                 <div
                   className="buttons"
                   style={{ display: "flex", justifyContent: "space-between" }}
@@ -250,9 +255,11 @@ const Information = () => {
                     Inquiry Now
                   </Button>{" "}
                   &nbsp;&nbsp;
-                  <Button variant="danger" onClick={handleShow1}>
-                    Book Test Drive
-                  </Button>
+                  {token && (
+                    <Button variant="danger" onClick={handleShow1}>
+                      Book Test Drive
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>
@@ -648,10 +655,10 @@ const Information = () => {
                   <Form.Control
                     type="text"
                     placeholder="enter Full Name"
-                    name="firstName"
-                    value={formData1.full_name}
+                    name="full_name"
                     onChange={handlechange1}
                     isInvalid={!!errors1.full_name}
+                    value={formData1.full_name}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors1.full_name}
@@ -667,7 +674,7 @@ const Information = () => {
                   <Form.Control
                     type="number"
                     placeholder="enter Phone Number"
-                    name="lastName"
+                    name="phone_number"
                     value={formData1.phone_number}
                     onChange={handlechange1}
                     isInvalid={!!errors1.phone_number}
@@ -688,7 +695,7 @@ const Information = () => {
                   <Form.Control
                     type="email"
                     placeholder="enter Email"
-                    name="email"
+                    name="email_address"
                     value={formData1.email_address}
                     onChange={handlechange1}
                     isInvalid={!!errors1.email_address}
@@ -707,7 +714,7 @@ const Information = () => {
                   <Form.Control
                     type="text"
                     placeholder="enter Car Model"
-                    name="phoneNumber"
+                    name="car_model"
                     value={formData1.car_model}
                     onChange={handlechange1}
                     isInvalid={!!errors1.car_model}
@@ -724,7 +731,7 @@ const Information = () => {
                 <Form.Control
                   type="text"
                   placeholder="enter Preferred Location"
-                  name="vehicleInterest"
+                  name="preferred_location"
                   value={formData1.preferred_location}
                   onChange={handlechange1}
                   isInvalid={!!errors1.preferred_location}
@@ -738,7 +745,7 @@ const Information = () => {
                 <Form.Control
                   type="date"
                   placeholder="enter Date"
-                  name="vehicleInterest"
+                  name="date"
                   value={formData1.date}
                   onChange={handlechange1}
                   isInvalid={!!errors1.date}
@@ -754,7 +761,7 @@ const Information = () => {
                 <Form.Control
                   type="time"
                   placeholder="enter Vehicle of Interest"
-                  name="vehicleInterest"
+                  name="time"
                   value={formData1.time}
                   onChange={handlechange1}
                   isInvalid={!!errors1.time}

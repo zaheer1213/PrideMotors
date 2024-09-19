@@ -1,6 +1,14 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Image,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import { BASEURL } from "../../Comman/constants";
 import { useNavigate } from "react-router-dom";
 
@@ -16,10 +24,16 @@ const Addblogs = () => {
     longtext: "",
     ispublished: true,
   });
+  const [show1, setShow1] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFromData({ ...fomrData, [name]: value });
+  };
+
+  const handleClose1 = () => {
+    setShow1(false);
   };
 
   const validate = () => {
@@ -66,6 +80,9 @@ const Addblogs = () => {
       }
     } catch (error) {
       console.log(error);
+      const error1 = error?.response?.data?.message[0];
+      setMessage(error1);
+      setShow1(true);
     }
   };
   return (
@@ -217,6 +234,19 @@ const Addblogs = () => {
         </Row>
       </section>
       {/* </Container> */}
+
+      {/* Success Modal */}
+      <Modal show={show1} onHide={handleClose1}>
+        <Modal.Header closeButton>
+          <Modal.Title>Alert</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{message}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose1}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

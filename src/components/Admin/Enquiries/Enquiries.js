@@ -119,7 +119,7 @@ const Enquiries = () => {
         "x-access-token": localStorage.getItem("token"),
       };
       const data = await axios.get(
-        `${BASEURL}/booking/inquiry?page=${page}&limit=${limit}`,
+        `${BASEURL}/booking/enquiry?page=${page}&limit=${limit}`,
         { headers }
       );
       const dataWithSr = data.data.rows.map((item, index) => ({
@@ -153,7 +153,7 @@ const Enquiries = () => {
       const headers = {
         "x-access-token": localStorage.getItem("token"),
       };
-      const response = await axios.delete(`${BASEURL}/booking/inquiry/${id}`, {
+      const response = await axios.delete(`${BASEURL}/booking/enquiry/${id}`, {
         headers,
       });
       setLoading(false);
